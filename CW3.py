@@ -93,10 +93,17 @@ def recursive_solve(grid, n_rows, n_cols):
 			return None
 	else:
 		row, col = empty 
-
+	list_column = []
+	list_column_grid = []
+	
+	for rows in range(n): 
+		for coll in range(n):
+			list_column.append(grid[coll][rows])
+		list_column_grid.append(list_column)
+		list_column = []
 	#Loop through possible values
 	for i in range(1, n+1):
-
+		if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0:
 			#Place the value into the grid
 			grid[row][col] = i
 			#Recursively solve the grid
