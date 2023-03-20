@@ -126,7 +126,7 @@ def recursive_solve(grid, n_rows, n_cols):
 	args: grid, n_rows, n_cols
 	return: A solved grid (as a nested list), or None
 	'''
-
+	
 	#N is the maximum integer considered in this board
 	n = n_rows*n_cols
 	#Find an empty place in the grid
