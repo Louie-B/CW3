@@ -1,9 +1,31 @@
+import time
 grid = [
 		[1, 0, 0, 2],
 		[0, 0, 1, 0],
 		[0, 1, 0, 4],
 		[0, 0, 0, 1]]
-
+grid2 =[
+[0, 0, 0, 2, 6, 0, 7, 0, 1],
+[6, 8, 0, 0, 7, 0, 0, 9, 0],
+[1, 9, 0, 0, 0, 4, 5, 0, 0],
+[8, 2, 0, 1, 0, 0, 0, 4, 0],
+[0, 0, 4, 6, 0, 2, 9, 0, 0],
+[0, 5, 0, 0, 0, 3, 0, 2, 8],
+[0, 0, 9, 3, 0, 0, 0, 7, 4],
+[0, 4, 0, 0, 5, 0, 0, 3, 6],
+[7, 0, 3, 0, 1, 8, 0, 0, 0],
+]
+grid3 = [
+[0, 2, 0, 0, 0, 0, 0, 1, 0],
+[0, 0, 6, 0, 4, 0, 0, 0, 0],
+[5, 8, 0, 0, 9, 0, 0, 0, 3],
+[0, 0, 0, 0, 0, 3, 0, 0, 4],
+[4, 1, 0, 0, 8, 0, 6, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 9, 5],
+[2, 0, 0, 0, 1, 0, 0, 8, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 3, 1, 0, 0, 8, 0, 5, 7],
+]
 
 def check_section(section, n):
 
@@ -107,13 +129,18 @@ def recursive_solve(grid, n_rows, n_cols):
 			list_column.append(grid[coll][rows])
 		list_column_grid.append(list_column)
 		list_column = []
+	#To find out what square the number is in
+	x = (col)//n_rows
+	y = (row)//n_rows
+	num_of_square = x + (n_cols*y)
 	#Loop through possible values
 	for i in range(1, n+1):
-		if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0:
+		if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0 and get_squares(grid,n_rows,n_cols)[num_of_square].count(i) == 0:
 			#Place the value into the grid
 			grid[row][col] = i
 			#Recursively solve the grid
 			ans = recursive_solve(grid, n_rows, n_cols)
+
 			#If we've found a solution, return it
 			if ans:
 				return ans 
@@ -195,4 +222,4 @@ def explain(grid, n_rows, n_cols):
 	not sure how to add the second part however i am going to do it by getting the posistions of the zeros in the inputed
 	grid then finding what they are replaced with.
 	'''
-explain(grid,2,2)
+print(solve(grid3,3,3))
