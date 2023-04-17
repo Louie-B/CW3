@@ -4,7 +4,7 @@ grid = [
 		[0, 0, 1, 0],
 		[0, 1, 0, 4],
 		[0, 0, 0, 1]]
-grid2 =[
+grid2 = [
 [0, 0, 0, 2, 6, 0, 7, 0, 1],
 [6, 8, 0, 0, 7, 0, 0, 9, 0],
 [1, 9, 0, 0, 0, 4, 5, 0, 0],
@@ -188,38 +188,35 @@ def fill_board_randomly(grid, n_rows, n_cols):
 
 	return filled_grid 
 
-def solve(grid, n_rows, n_cols):
-
+def explain_func(grid, n_rows, n_cols):
+	n = n_rows * n_cols
+	x_cords = []
+	y_cords = []	
+	for rows in range(n): 
+		for coll in range(n):
+			if grid[rows][coll] == 0:
+				x_cords.append(rows)
+				y_cords.append(coll)
+	solved = recursive_solve(grid, n_rows, n_cols)		
+	for i in range(len(x_cords)):
+		print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " +  str(y_cords[i]) + ")")
+	print(solved)
+	
+	
+	
+	'''
+	not sure how to add the second part however i am going to do it by getting the posistions of the zeros in the inputed
+	grid then finding what they are replaced with.
+	'''
+def solve(grid, n_rows, n_cols,explain = False):
 	'''
 	Solve function for Sudoku coursework.
 	Comment out one of the lines below to either use the random or recursive solver
 	'''
+	if explain == True:
+		explain_func(grid, n_rows, n_cols)
 	#return random_solve(grid, n_rows, n_cols)
-	return recursive_solve(grid, n_rows, n_cols)
-	
-def explain(grid, n_rows, n_cols):
-	n = n_rows * n_cols
-	
-	explain = input("do you want to use flag explain y/n ")
-	x_cords = []
-	y_cords = []
-	if explain == "y":	
-		for rows in range(n): 
-			for coll in range(n):
-				if grid[rows][coll] == 0:
-					x_cords.append(rows)
-					y_cords.append(coll)
-		solved = recursive_solve(grid, n_rows, n_cols)		
-		for i in range(len(x_cords)):
-			print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i] + 1) + ", " +  str(y_cords[i] + 1) + ")")
-		print(solved)
-	
-	
-	if explain == "n":
-		#return random_solve(grid, n_rows, n_cols)
+	else:
 		return recursive_solve(grid, n_rows, n_cols)
-		'''
-	not sure how to add the second part however i am going to do it by getting the posistions of the zeros in the inputed
-	grid then finding what they are replaced with.
-	'''
-print(solve(grid3,3,3))
+
+solve(grid3,3,3,explain = True)
