@@ -220,6 +220,7 @@ def solve(grid, n_rows, n_cols,explain = False):
 	else:
 		return recursive_solve(grid, n_rows, n_cols)
 
+<<<<<<< HEAD
 solve(grid3,3,3,explain = True)
 def main():
 	print("")
@@ -227,3 +228,41 @@ def main():
 
 if __name__ == "__main__":
 	print(sys.argv[:-1])
+=======
+def file(Input, output):
+        grid_input=[]
+        with open(Input, "r") as my_file:
+                data = my_file.read().replace(",","")
+                data = data.replace(" ","")
+                data = data.replace("\n","")
+                no_of_characters = len(data)
+                grid_size = no_of_characters**0.5
+                temp_array = []
+                count = 0
+                for number in data:
+                        count+=1
+                        if (count == grid_size):
+                                count = 0
+                                temp_array.append(int(number))
+                                grid_input.append(temp_array)
+                                temp_array = []
+                        else:
+                                temp_array.append(int(number))
+        if (grid_size == 6):
+                n_rows = 2
+                n_cols = 3
+        else:
+                n_rows, n_cols = int(grid_size**0.5),int(grid_size**0.5)
+
+        grid_solved = solve(grid_input, n_rows, n_cols)
+
+        with open(output, "w") as write_file:
+                for line in grid_solved:
+                        write_file.write(str(line))
+                        write_file.write('\n')
+                
+                
+file("easy1.txt","easy1solved.txt")
+
+solve(grid3,3,3,explain = True)
+>>>>>>> 900fd7b80e209f99f9ecd709754fbeef604a91a2
