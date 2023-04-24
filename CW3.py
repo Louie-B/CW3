@@ -251,6 +251,7 @@ def file(Input, output):
                         write_file.write(str(line))
                         write_file.write('\n')
                 
+                
 file("easy1.txt","easy1solved.txt")
 
 solve(grid3,3,3,explain = True)
