@@ -189,7 +189,7 @@ def fill_board_randomly(grid, n_rows, n_cols):
 
 	return filled_grid 
 
-def explain_func(grid, n_rows, n_cols):
+def explain_func(grid, n_rows, n_cols, user_print = False):
 	n = n_rows * n_cols
 	x_cords = []
 	y_cords = []	
@@ -198,60 +198,69 @@ def explain_func(grid, n_rows, n_cols):
 			if grid[rows][coll] == 0:
 				x_cords.append(rows)
 				y_cords.append(coll)
-	solved = recursive_solve(grid, n_rows, n_cols)		
-	for i in range(len(x_cords)):
-		print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " +  str(y_cords[i]) + ")")
-	print(solved)
-	
-	
-	
+	solved = recursive_solve(grid, n_rows, n_cols)
+	if (user_print == True):
+		for i in range(len(x_cords)):
+			print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " +  str(y_cords[i]) + ")")
+		print(solved)
+	else:
+		explain_array=[]
+		for i in range(len(x_cords)):
+			explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " +  str(y_cords[i]) + ")"))
+		return explain_array
 	'''
 	not sure how to add the second part however i am going to do it by getting the posistions of the zeros in the inputed
 	grid then finding what they are replaced with.
 	'''
+
+	
 def solve(grid, n_rows, n_cols,explain = False):
 	'''
 	Solve function for Sudoku coursework.
 	Comment out one of the lines below to either use the random or recursive solver
 	'''
 	if explain == True:
-		explain_func(grid, n_rows, n_cols)
+		explain_func(grid, n_rows, n_cols, True)
 	#return random_solve(grid, n_rows, n_cols)
 	else:
 		return recursive_solve(grid, n_rows, n_cols)
 
 solve(grid3,3,3,explain = True)
 def file(Input, output):
-        grid_input=[]
-        with open(Input, "r") as my_file:
-                data = my_file.read().replace(",","")
-                data = data.replace(" ","")
-                data = data.replace("\n","")
-                no_of_characters = len(data)
-                grid_size = no_of_characters**0.5
-                temp_array = []
-                count = 0
-                for number in data:
-                        count+=1
-                        if (count == grid_size):
-                                count = 0
-                                temp_array.append(int(number))
-                                grid_input.append(temp_array)
-                                temp_array = []
-                        else:
-                                temp_array.append(int(number))
-        if (grid_size == 6):
-                n_rows = 2
-                n_cols = 3
-        else:
-                n_rows, n_cols = int(grid_size**0.5),int(grid_size**0.5)
-
-        grid_solved = solve(grid_input, n_rows, n_cols)
-
-        with open(output, "w") as write_file:
-                for line in grid_solved:
-                        write_file.write(str(line))
-                        write_file.write('\n')
+	grid_input=[]
+	with open(Input, "r") as my_file:
+		data = my_file.read().replace(",","")
+		data = data.replace(" ","")
+		data = data.replace("\n","")
+		no_of_characters = len(data)
+		grid_size = no_of_characters**0.5
+		temp_array = []
+		count = 0
+		for number in data:
+			count+=1
+			if (count == grid_size):
+				count = 0
+				temp_array.append(int(number))
+				grid_input.append(temp_array)
+				temp_array = []
+			else:
+				temp_array.append(int(number))
+	
+	if (grid_size == 6):
+		n_rows = 2
+		n_cols = 3
+	else:
+		n_rows, n_cols = int(grid_size**0.5),int(grid_size**0.5)
+	explaination = explain_func(grid_input, n_rows, n_cols)
+	grid_solved = solve(grid_input, n_rows, n_cols)
+	with open(output, "w") as write_file:
+		for line in explaination:
+			write_file.write(str(line))
+			write_file.write('\n')
+		write_file.write('\n')
+		for line in grid_solved:
+			write_file.write(str(line))
+			write_file.write('\n')
                 
                 
 file("easy1.txt","easy1solved.txt")
