@@ -1,6 +1,6 @@
+#To use this code, call improved_solve(<grid>, <row length>, <column length>)
 import copy
 
-#To use this code, import it and call improved_solve()
 
 def check_section(section, n):
 
@@ -299,12 +299,3 @@ def improved_solve(grid, row, col):
     generate_range(grid, row, col)
     return check(grid, row, col)
 
-grid1 = [[0, 2, 0, 0, 0, 0, 0, 1, 0],
-[0, 0, 6, 0, 4, 0, 0, 0, 0],
-[5, 8, 0, 0, 9, 0, 0, 0, 3],
-[0, 0, 0, 0, 0, 3, 0, 0, 4],
-[4, 1, 0, 0, 8, 0, 6, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 9, 5],
-[2, 0, 0, 0, 1, 0, 0, 8, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 3, 1, 0, 0, 8, 0, 5, 7]]
