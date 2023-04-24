@@ -220,15 +220,7 @@ def solve(grid, n_rows, n_cols,explain = False):
 	else:
 		return recursive_solve(grid, n_rows, n_cols)
 
-<<<<<<< HEAD
 solve(grid3,3,3,explain = True)
-def main():
-	print("")
-
-
-if __name__ == "__main__":
-	print(sys.argv[:-1])
-=======
 def file(Input, output):
         grid_input=[]
         with open(Input, "r") as my_file:
@@ -265,4 +257,9 @@ def file(Input, output):
 file("easy1.txt","easy1solved.txt")
 
 solve(grid3,3,3,explain = True)
->>>>>>> 900fd7b80e209f99f9ecd709754fbeef604a91a2
+def main():
+	print("")
+
+
+if __name__ == "__main__":
+	print(sys.argv[:-1])
