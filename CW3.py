@@ -257,9 +257,13 @@ def file(Input, output):
 file("easy1.txt","easy1solved.txt")
 
 solve(grid3,3,3,explain = True)
-def main():
-	print("")
+def main(flags):
+	for flag in flags:
+		if "explain" in flag:
+			en_explain = True
+			print("yes")
+		
 
 
 if __name__ == "__main__":
-	print(sys.argv[-1:])
+	main(sys.argv[-1:])
