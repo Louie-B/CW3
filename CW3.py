@@ -1,4 +1,5 @@
 import time
+import sys
 grid = [
 		[1, 0, 0, 2],
 		[0, 0, 1, 0],
@@ -220,3 +221,9 @@ def solve(grid, n_rows, n_cols,explain = False):
 		return recursive_solve(grid, n_rows, n_cols)
 
 solve(grid3,3,3,explain = True)
+def main():
+	print("")
+
+
+if __name__ == "__main__":
+	print(sys.argv[:-1])
