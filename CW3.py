@@ -1,7 +1,7 @@
 import time
 import copy
 import random
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
 grid1 = [
@@ -155,7 +155,7 @@ def recursive_solve(grid, n_rows, n_cols):
 	#To find out what square the number is in
 	x = (col)//n_rows
 	y = (row)//n_rows
-	num_of_square = x + (n_cols*y)
+	num_of_square = (x*rows) + (y)
 	#Loop through possible values
 	for i in range(1, n+1):
 		if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0 and get_squares(grid,n_rows,n_cols)[num_of_square].count(i) == 0:
