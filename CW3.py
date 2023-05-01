@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import time
-<<<<<<< HEAD
 import copy
 import random
 import matplotlib.pyplot as plt
@@ -11,14 +10,15 @@ grid1 = [
     [0, 0, 1, 0],
     [0, 1, 0, 4],
     [0, 0, 0, 1]]
-=======
+
 import sys
+
 grid = [
-		[1, 0, 0, 2],
-		[0, 0, 1, 0],
-		[0, 1, 0, 4],
-		[0, 0, 0, 1]]
->>>>>>> 1e411d8a7c431b138b924b760a2f6851892fcb2e
+    [1, 0, 0, 2],
+    [0, 0, 1, 0],
+    [0, 1, 0, 4],
+    [0, 0, 0, 1]]
+
 grid2 = [
     [0, 0, 0, 2, 6, 0, 7, 0, 1],
     [6, 8, 0, 0, 7, 0, 0, 9, 0],
@@ -210,7 +210,6 @@ def fill_board_randomly(grid, n_rows, n_cols):
     return filled_grid
 
 
-<<<<<<< HEAD
 def explain_func(grid, n_rows, n_cols):
     """
     Provides a set of instructions for solving the puzzle
@@ -249,50 +248,56 @@ def solve(grid, n_rows, n_cols, explain=False):
     else:
         return recursive_solve(grid, n_rows, n_cols)
 
-print(solve(grid4,3,2))
-=======
-def explain_func(grid, n_rows, n_cols, user_print = False):
-	n = n_rows * n_cols
-	x_cords = []
-	y_cords = []	
-	for rows in range(n): 
-		for coll in range(n):
-			if grid[rows][coll] == 0:
-				x_cords.append(rows)
-				y_cords.append(coll)
-	solved = recursive_solve(grid, n_rows, n_cols)
-	if (user_print == True):
-		for i in range(len(x_cords)):
-			print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " +  str(y_cords[i]) + ")")
-		print(solved)
-	else:
-		explain_array=[]
-		for i in range(len(x_cords)):
-			explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " +  str(y_cords[i]) + ")"))
-		return explain_array
-	'''
+
+
+
+def explain_func(grid, n_rows, n_cols, user_print=False):
+    n = n_rows * n_cols
+    x_cords = []
+    y_cords = []
+    for rows in range(n):
+        for coll in range(n):
+            if grid[rows][coll] == 0:
+                x_cords.append(rows)
+                y_cords.append(coll)
+    solved = recursive_solve(grid, n_rows, n_cols)
+    if (user_print == True):
+        for i in range(len(x_cords)):
+            print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " + str(
+                y_cords[i]) + ")")
+        print(solved)
+    else:
+        explain_array = []
+        for i in range(len(x_cords)):
+            explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(
+                x_cords[i]) + ", " + str(y_cords[i]) + ")"))
+        return explain_array
+    '''
 	not sure how to add the second part however i am going to do it by getting the posistions of the zeros in the inputed
 	grid then finding what they are replaced with.
 	'''
 
-	
-def solve(grid, n_rows, n_cols,explain = False):
-	'''
+
+def solve(grid, n_rows, n_cols, explain=False):
+    '''
 	Solve function for Sudoku coursework.
 	Comment out one of the lines below to either use the random or recursive solver
 	'''
-	if explain == True:
-		explain_func(grid, n_rows, n_cols, True)
-	#return random_solve(grid, n_rows, n_cols)
-	else:
-		return recursive_solve(grid, n_rows, n_cols)
->>>>>>> 1e411d8a7c431b138b924b760a2f6851892fcb2e
+    if explain == True:
+        explain_func(grid, n_rows, n_cols, True)
+    # return random_solve(grid, n_rows, n_cols)
+    else:
+        return recursive_solve(grid, n_rows, n_cols)
 
-solve(grid3,3,3,explain = True)
-def file(Input, output):
-<<<<<<< HEAD
+
+
+
+file_names = ['easy1.txt', 'easy2.txt', 'med1', 'med2', 'hard1']
+
+
+def file(input, output):
     grid_input = []
-    with open(Input, "r") as my_file:
+    with open(input, "r") as my_file:
         data = my_file.read().replace(",", "")
         data = data.replace(" ", "")
         data = data.replace("\n", "")
@@ -316,17 +321,15 @@ def file(Input, output):
         n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
 
     grid_solved = solve(grid_input, n_rows, n_cols)
-    print(n_rows)
     with open(output, "w") as write_file:
         for line in grid_solved:
             write_file.write(str(line))
             write_file.write('\n')
 
 
-#file("easy3", "easy1solved.txt")
+#for i in range(len(file_names)):
+    #file(file_names[i], "solved_" + file_names[i])
 
-
-# solve(grid2, 3, 3, explain=True)
 
 def grid_type(grid):
     grid_size = len(grid)
@@ -341,20 +344,33 @@ def grid_type(grid):
         n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
         return "2x2", n_rows, n_cols
 
+def grid_difficulty(grid):
+    unfilled_locations = count_zero(grid)
+    total_locations = len(grid) ** 2
+    fraction = (unfilled_locations / total_locations)
+    return fraction
 
 def average_time(grid):
     total_time = 0
-    counter = 0
+    average_time_random = 0
+    average_time_recursive = 0
     grid_info = grid_type(grid)
     num_of_attempts = 10
     for i in range(num_of_attempts):
         start_time = time.time()
         solve(grid, grid_info[1], grid_info[2], explain=False)
         end_time = time.time()
+        random_start_time = time.time()
+        random_solve(grid, grid_info[1], grid_info[2], max_tries=500000)
+        random_end_time = time.time()
         execution_time = end_time - start_time
+        random_exec_time = random_start_time - random_end_time
         total_time += execution_time
-        counter += 1
-    print("Average time of execution for a ", grid_info[0], "is", (total_time / 10), "seconds")
+        total_time += random_exec_time
+        average_time_recursive = total_time / 10
+        average_time_random = total_time / 10
+    # print("Average time of execution for a ", grid_info[0], "is", (total_time / 10), "seconds. Grid difficulty is", grid_difficulty(grid))
+    return average_time_recursive, average_time_random
 
 
 def count_zero(grid):
@@ -370,66 +386,41 @@ def count_zero(grid):
 
 
 def profile(grid):
-    # grid_info = grid_type(grid)
-    unfilled_locations = count_zero(grid)
-    grid_area = len(grid) ** 2
-    fraction = (unfilled_locations / grid_area)
-    if fraction <= 5 / 9:
-        print("Easy")
-    average_time(grid)
+    av_time_recursive = []
+    av_time_random = []
+    # av_time_recursive.append(average_time(grid)[0])
+    # av_time_random.append(average_time(grid)[1])
+    print(average_time(grid)[0])
+    print(average_time(grid)[1])
+    y_rec = average_time(grid)[0]
+    y_ran = average_time(grid)[1]
+    x = grid_difficulty(grid)
+    plt.bar(0, y_rec)
+    plt.bar(1, y_ran)
+    plt.xlim(0, 1)
+    plt.xlabel('Grids')
+    plt.ylabel('Time (s)')
+    plt.title('Execution Time vs. Grids')
+    plt.show()
 
 
-em = find_empty(grid3)
+
+
 # print(count_zero(grid3))
 # print(profile())
-=======
-	grid_input=[]
-	with open(Input, "r") as my_file:
-		data = my_file.read().replace(",","")
-		data = data.replace(" ","")
-		data = data.replace("\n","")
-		no_of_characters = len(data)
-		grid_size = no_of_characters**0.5
-		temp_array = []
-		count = 0
-		for number in data:
-			count+=1
-			if (count == grid_size):
-				count = 0
-				temp_array.append(int(number))
-				grid_input.append(temp_array)
-				temp_array = []
-			else:
-				temp_array.append(int(number))
-	
-	if (grid_size == 6):
-		n_rows = 2
-		n_cols = 3
-	else:
-		n_rows, n_cols = int(grid_size**0.5),int(grid_size**0.5)
-	explaination = explain_func(grid_input, n_rows, n_cols)
-	grid_solved = solve(grid_input, n_rows, n_cols)
-	with open(output, "w") as write_file:
-		for line in explaination:
-			write_file.write(str(line))
-			write_file.write('\n')
-		write_file.write('\n')
-		for line in grid_solved:
-			write_file.write(str(line))
-			write_file.write('\n')
-                
-                
-file("easy1.txt","easy1solved.txt")
 
-solve(grid3,3,3,explain = True)
+
+#file("easy1.txt", "easy1solved.txt")
+
+#solve(grid3, 3, 3, explain=True)
+
+
 def main(flags):
-	for flag in flags:
-		if "explain" in flag:
-			en_explain = True
-			print("yes")
-		
+    for flag in flags:
+        if "explain" in flag:
+            en_explain = True
+            print("yes")
 
 
 if __name__ == "__main__":
-	main(sys.argv[-1:])
->>>>>>> 1e411d8a7c431b138b924b760a2f6851892fcb2e
+    main(sys.argv[-1:])
