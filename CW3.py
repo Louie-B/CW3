@@ -1,12 +1,10 @@
 import time
 import sys
 grid = [
-[1, 0, 0, 2],
-[0, 0, 1, 0],
-[0, 1, 0, 4],
-[0, 0, 0, 1]
-]
-
+		[1, 0, 0, 2],
+		[0, 0, 1, 0],
+		[0, 1, 0, 4],
+		[0, 0, 0, 1]]
 grid2 = [
 [0, 0, 0, 2, 6, 0, 7, 0, 1],
 [6, 8, 0, 0, 7, 0, 0, 9, 0],
@@ -18,7 +16,6 @@ grid2 = [
 [0, 4, 0, 0, 5, 0, 0, 3, 6],
 [7, 0, 3, 0, 1, 8, 0, 0, 0],
 ]
-
 grid3 = [
 [0, 2, 0, 0, 0, 0, 0, 1, 0],
 [0, 0, 6, 0, 4, 0, 0, 0, 0],
@@ -29,6 +26,15 @@ grid3 = [
 [2, 0, 0, 0, 1, 0, 0, 8, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 3, 1, 0, 0, 8, 0, 5, 7],
+]
+
+grid4 = [
+[0, 3, 0, 4, 0, 0],
+[0, 0, 5, 6, 0, 3],
+[0, 0, 0, 1, 0, 0],
+[0, 1, 0, 3, 0, 5],
+[0, 6, 4, 0, 3, 1],
+[0, 0, 1, 0, 4, 6],
 ]
 
 def check_section(section, n):
@@ -57,6 +63,7 @@ def get_squares(grid, n_rows, n_cols):
 def check_solution(grid, n_rows, n_cols):
 	'''
 	This function is used to check whether a sudoku board has been correctly solved
+
 	args: grid - representation of a suduko board as a nested list.
 	returns: True (correct solution) or False (incorrect solution)
 	'''
@@ -86,6 +93,7 @@ def find_empty(grid):
 	'''
 	This function returns the index (i, j) to the first zero element in a sudoku grid
 	If no such element is found, it returns None
+
 	args: grid
 	return: A tuple (i,j) where i and j are both integers, or None
 	'''
@@ -103,6 +111,7 @@ def recursive_solve(grid, n_rows, n_cols):
 	'''
 	This function uses recursion to exhaustively search all possible solutions to a grid
 	until the solution is found
+
 	args: grid, n_rows, n_cols
 	return: A solved grid (as a nested list), or None
 	'''
@@ -156,6 +165,7 @@ def recursive_solve(grid, n_rows, n_cols):
 def random_solve(grid, n_rows, n_cols, max_tries=50000):
 	'''
 	This function uses random trial and error to solve a Sudoku grid
+
 	args: grid, n_rows, n_cols, max_tries
 	return: A solved grid (as a nested list), or the original grid if no solution is found
 	'''
@@ -170,6 +180,7 @@ def random_solve(grid, n_rows, n_cols, max_tries=50000):
 def fill_board_randomly(grid, n_rows, n_cols):
 	'''
 	This function will fill an unsolved Sudoku grid with random numbers
+
 	args: grid, n_rows, n_cols
 	return: A grid with all empty values filled in
 	'''
@@ -223,7 +234,7 @@ def solve(grid, n_rows, n_cols,explain = False):
 	else:
 		return recursive_solve(grid, n_rows, n_cols)
 
-solve(grid3,3,3,explain = True)
+
 def file(Input, output):
 	grid_input=[]
 	with open(Input, "r") as my_file:
@@ -261,9 +272,11 @@ def file(Input, output):
 			write_file.write('\n')
                 
                 
-file("easy1.txt","easy1solved.txt")
 
-solve(grid3,3,3,explain = True)
+
+solve(grid4,2,3, explain=True)
+
+file("easy3","easy3solved.txt")
 def main(flags):
 	for flag in flags:
 		if "explain" in flag:
