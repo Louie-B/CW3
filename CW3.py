@@ -1,8 +1,7 @@
 import time
-<<<<<<< HEAD
 import copy
 import random
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 
 grid1 = [
@@ -11,23 +10,14 @@ grid1 = [
     [0, 1, 0, 4],
     [0, 0, 0, 1]]
 
-=======
->>>>>>> f21bc039293409e463cbdfc977105b919db1e1f4
 import sys
 
 grid = [
-<<<<<<< HEAD
     [1, 0, 0, 2],
     [0, 0, 1, 0],
     [0, 1, 0, 4],
     [0, 0, 0, 1]]
 
-=======
-		[1, 0, 0, 2],
-		[0, 0, 1, 0],
-		[0, 1, 0, 4],
-		[0, 0, 0, 1]]
->>>>>>> f21bc039293409e463cbdfc977105b919db1e1f4
 grid2 = [
 [0, 0, 0, 2, 6, 0, 7, 0, 1],
 [6, 8, 0, 0, 7, 0, 0, 9, 0],
@@ -206,7 +196,6 @@ def fill_board_randomly(grid, n_rows, n_cols):
 
 	args: grid, n_rows, n_cols
 	return: A grid with all empty values filled in
-<<<<<<< HEAD
 	"""
     n = n_rows * n_cols
     # Make a copy of the original grid
@@ -245,10 +234,8 @@ def explain_func(grid, n_rows, n_cols):
     print(solved)
 
     '''
-	not sure how to add the second part however i am going to do it by getting the positions of the zeros in the inputted
-	grid then finding what they are replaced with.
-=======
->>>>>>> f21bc039293409e463cbdfc977105b919db1e1f4
+	#not sure how to add the second part however i am going to do it by getting the positions of the zeros in the inputted
+	#grid then finding what they are replaced with.
 	'''
 	n = n_rows*n_cols
 	#Make a copy of the original grid
@@ -263,34 +250,7 @@ def explain_func(grid, n_rows, n_cols):
 				filled_grid[i][j] = random.randint(1, n)
 
 	return filled_grid 
-
-<<<<<<< HEAD
-
-
-
-def explain_func(grid, n_rows, n_cols, user_print=False):
-    n = n_rows * n_cols
-    x_cords = []
-    y_cords = []
-    for rows in range(n):
-        for coll in range(n):
-            if grid[rows][coll] == 0:
-                x_cords.append(rows)
-                y_cords.append(coll)
-    solved = recursive_solve(grid, n_rows, n_cols)
-    if (user_print == True):
-        for i in range(len(x_cords)):
-            print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " + str(
-                y_cords[i]) + ")")
-        print(solved)
-    else:
-        explain_array = []
-        for i in range(len(x_cords)):
-            explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(
-                x_cords[i]) + ", " + str(y_cords[i]) + ")"))
-        return explain_array
     '''
-=======
 def explain_func(grid, n_rows, n_cols, user_print = False):
 	n = n_rows * n_cols
 	x_cords = []
@@ -310,11 +270,6 @@ def explain_func(grid, n_rows, n_cols, user_print = False):
 		for i in range(len(x_cords)):
 			explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " +  str(y_cords[i]) + ")"))
 		return explain_array
-	'''
->>>>>>> f21bc039293409e463cbdfc977105b919db1e1f4
-	not sure how to add the second part however i am going to do it by getting the posistions of the zeros in the inputed
-	grid then finding what they are replaced with.
-	'''
 
 
 def solve(grid, n_rows, n_cols, explain=False):
@@ -322,7 +277,6 @@ def solve(grid, n_rows, n_cols, explain=False):
 	Solve function for Sudoku coursework.
 	Comment out one of the lines below to either use the random or recursive solver
 	'''
-<<<<<<< HEAD
     if explain == True:
         explain_func(grid, n_rows, n_cols, True)
     # return random_solve(grid, n_rows, n_cols)
@@ -455,14 +409,6 @@ def profile(grid):
 #solve(grid3, 3, 3, explain=True)
 
 
-=======
-	if explain == True:
-		explain_func(grid, n_rows, n_cols, True)
-	#return random_solve(grid, n_rows, n_cols)
-	else:
-		return recursive_solve(grid, n_rows, n_cols)
-
-
 def file(Input, output):
 	grid_input=[]
 	with open(Input, "r") as my_file:
@@ -505,7 +451,6 @@ def file(Input, output):
 solve(grid4,2,3, explain=True)
 
 file("easy3","easy3solved.txt")
->>>>>>> f21bc039293409e463cbdfc977105b919db1e1f4
 def main(flags):
     for flag in flags:
         if "explain" in flag:
@@ -514,8 +459,4 @@ def main(flags):
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     main(sys.argv[-1:])
-=======
-	main(sys.argv[-1:])
->>>>>>> f21bc039293409e463cbdfc977105b919db1e1f4
