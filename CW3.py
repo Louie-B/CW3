@@ -76,7 +76,6 @@ def get_squares(grid, n_rows, n_cols):
 def check_solution(grid, n_rows, n_cols):
     """
 	This function is used to check whether a sudoku board has been correctly solved
-
 	args: grid - representation of a suduko board as a nested list.
 	returns: True (correct solution) or False (incorrect solution)
 	"""
@@ -106,7 +105,6 @@ def find_empty(grid):
     """
 	This function returns the index (i, j) to the first zero element in a sudoku grid
 	If no such element is found, it returns None
-
 	args: grid
 	return: A tuple (i,j) where i and j are both integers, or None
 	"""
@@ -124,7 +122,6 @@ def recursive_solve(grid, n_rows, n_cols):
     """
 	This function uses recursion to exhaustively search all possible solutions to a grid
 	until the solution is found
-
 	args: grid, n_rows, n_cols
 	return: A solved grid (as a nested list), or None
 	"""
@@ -180,7 +177,6 @@ def recursive_solve(grid, n_rows, n_cols):
 def random_solve(grid, n_rows, n_cols, max_tries=50000):
     """
 	This function uses random trial and error to solve a Sudoku grid
-
 	args: grid, n_rows, n_cols, max_tries
 	return: A solved grid (as a nested list), or the original grid if no solution is found
 	"""
@@ -196,7 +192,6 @@ def random_solve(grid, n_rows, n_cols, max_tries=50000):
 def fill_board_randomly(grid, n_rows, n_cols):
     """
 	This function will fill an unsolved Sudoku grid with random numbers
-
 	args: grid, n_rows, n_cols
 	return: A grid with all empty values filled in
 	"""
