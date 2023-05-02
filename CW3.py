@@ -660,6 +660,24 @@ def grid_difficulty(grid):
 # print(filtered_list)
 
 
+def hint(grid, row, col, hint_num):
+    copy_grid = copy.deepcopy(grid)
+    answer_grid = wavefront_solve(copy_grid, row, col)
+    empty_row = []
+    empty_col = []
+    for i in range(row*col):
+        for j in range(col*row):
+            if grid[i][j] == 0:
+                empty_row.append(i)
+                empty_col.append(j)
+    for i in range(hint_num):
+        list_index = random.randint(0, len(empty_row) - 1)
+        answer_row = empty_row.pop(empty_row[list_index])
+        answer_col = empty_col.pop(empty_col[list_index])
+        grid[answer_row][answer_col] = answer_grid[answer_row][answer_col]
+    return grid
+
+
 def average_time(grid):
     total_time = 0
     # total_time_random = 0
