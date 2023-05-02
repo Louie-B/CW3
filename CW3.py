@@ -217,14 +217,14 @@ def difficulty_level(grid):
     else:
         return 'hard'
 
-
+"""
 def explain_func(grid, n_rows, n_cols):
-    """
+
     Provides a set of instructions for solving the puzzle
 
     args: grid, n_rows, n_cols
     return: A list of commands for solving the puzzle
-    """
+
     n = n_rows * n_cols
     x_cords = []
     y_cords = []
@@ -255,9 +255,9 @@ def explain_func(grid, n_rows, n_cols):
                 filled_grid[i][j] = random.randint(1, n)
 
     return filled_grid
-
-
 """
+
+
 def explain_func(grid, n_rows, n_cols, user_print=False):
     n = n_rows * n_cols
     x_cords = []
@@ -279,7 +279,7 @@ def explain_func(grid, n_rows, n_cols, user_print=False):
             explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(
                 x_cords[i]) + ", " + str(y_cords[i]) + ")"))
         return explain_array
-"""
+
 
 
 def solve(grid, n_rows, n_cols, explain=False):
@@ -358,7 +358,8 @@ def read_file(input_file):
     return grid_input, grid_size
 
 
-def file(grid_input, grid_size, output):
+def file(file_input, output):
+    grid_input, grid_size = read_file(file_input)
     if grid_size == 6:
         n_rows = 2
         n_cols = 3
@@ -376,6 +377,7 @@ def file(grid_input, grid_size, output):
             write_file.write('\n')
 
 
+file("easy1.txt", "easy1solved.txt")
 # for i in range(len(file_names)):
 # file(file_names[i], "solved_" + file_names[i])
 
@@ -481,7 +483,7 @@ def profile(grid):
 
 # print(file(read_file('easy1.txt')[0], read_file('easy1.txt')[1], 'eazsolved.txt'))
 
-# print(plot())
+print(plot())
 # print(profile(grid3))
 #print(explain_func(grid3, 3, 3))
 
