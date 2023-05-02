@@ -402,10 +402,13 @@ def grid_difficulty(grid):
     return fraction
 
 
-file_list = os.listdir("../CW3")
+file_list = os.listdir(".")
+print(file_list)
 filtered_list = [name for name in file_list if
                  'solved' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
-#print(filtered_list)
+print(filtered_list)
+
+# print(filtered_list)
 
 
 def average_time(grid):
@@ -439,8 +442,9 @@ for i in range(len(filtered_list)):
     aver_recursive_grids.append(average_time(read_file(filtered_list[i])[0]))
     # aver_random_grids.append(average_time(read_file(filtered_list[i])[0]))
 
+
 # print(aver_random_grids)
-#print(aver_recursive_grids)
+# print(aver_recursive_grids)
 
 
 def plot():
@@ -477,8 +481,9 @@ def profile(grid):
 
 # print(file(read_file('easy1.txt')[0], read_file('easy1.txt')[1], 'eazsolved.txt'))
 
-#print(plot())
+# print(plot())
 # print(profile(grid3))
+#print(explain_func(grid3, 3, 3))
 
 
 def main(flags):
