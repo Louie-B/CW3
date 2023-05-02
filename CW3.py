@@ -140,7 +140,6 @@ def recursive_solve(grid, n_rows, n_cols):
         row, col = empty
     list_column = []
     list_column_grid = []
-
     for rows in range(n):
         for coll in range(n):
             list_column.append(grid[coll][rows])
