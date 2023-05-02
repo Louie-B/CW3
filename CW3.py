@@ -201,10 +201,8 @@ def random_solve(grid, n_rows, n_cols, max_tries=500000):
     """
 
     for i in range(max_tries):
-        print("test")
         possible_solution = fill_board_randomly(grid, n_rows, n_cols)
         if check_solution(possible_solution, n_rows, n_cols):
-            print("test2")
             return possible_solution
 
     return grid
@@ -407,7 +405,7 @@ def grid_difficulty(grid):
 file_list = os.listdir("../CW3")
 filtered_list = [name for name in file_list if
                  'solved' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
-print(filtered_list)
+#print(filtered_list)
 
 
 def average_time(grid):
@@ -442,7 +440,7 @@ for i in range(len(filtered_list)):
     # aver_random_grids.append(average_time(read_file(filtered_list[i])[0]))
 
 # print(aver_random_grids)
-print(aver_recursive_grids)
+#print(aver_recursive_grids)
 
 
 def plot():
@@ -479,14 +477,10 @@ def profile(grid):
 
 # print(file(read_file('easy1.txt')[0], read_file('easy1.txt')[1], 'eazsolved.txt'))
 
-print(plot())
+#print(plot())
 # print(profile(grid3))
-print(random_solve(grid3, 3, 3))
 
-"""
-for i in range(len(file_list)):
-    if ('.py' or '.git' or 'solved') not in file_list[i]:
-        filtered_files.append(file_list[i])
+
 def main(flags):
     for flag in flags:
         if "explain" in flag:
@@ -496,4 +490,3 @@ def main(flags):
 
 if __name__ == "__main__":
     main(sys.argv[-1:])
-"""
