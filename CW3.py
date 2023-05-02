@@ -146,13 +146,12 @@ def recursive_solve(grid, n_rows, n_cols):
         list_column_grid.append(list_column)
         list_column = []
     # To find out what square the number is in
-    x = col // n_rows
+    x = col // n_cols
     y = row // n_rows
-    num_of_square = x + (n_cols * y)
+    num_of_square = x + (n_rows * y)
     # Loop through possible values
     for i in range(1, n + 1):
-        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0 and get_squares(grid, n_rows, n_cols)[
-            num_of_square].count(i) == 0:
+        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0 and get_squares(grid, n_rows, n_cols)[num_of_square].count(i) == 0:
             # Place the value into the grid
             grid[row][col] = i
             # Recursively solve the grid
@@ -487,7 +486,7 @@ print(plot())
 # print(profile(grid3))
 #print(explain_func(grid3, 3, 3))
 
-
+print(recursive_solve(grid4,2,3))
 def main(flags):
     for flag in flags:
         if "explain" in flag:
