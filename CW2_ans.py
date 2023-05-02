@@ -161,7 +161,7 @@ def recursive_solve(grid, n_rows, n_cols):
 	#If we get here, we've tried all possible values. Return none to indicate the previous value is incorrect.
 	return None
 
-def random_solve(grid, n_rows, n_cols, max_tries=50000):
+def random_solve(grid, n_rows, n_cols, max_tries=500000):
 	'''
 	This function uses random trial and error to solve a Sudoku grid
 
@@ -207,6 +207,8 @@ def solve(grid, n_rows, n_cols):
 	#return random_solve(grid, n_rows, n_cols)
 	return recursive_solve(grid, n_rows, n_cols)
 
+print(random_solve(grid3, 3, 3))
+
 '''
 ===================================
 DO NOT CHANGE CODE BELOW THIS LINE
@@ -218,7 +220,7 @@ def main():
 
 	print("Running test script for coursework 1")
 	print("====================================")
-	
+
 	for (i, (grid, n_rows, n_cols)) in enumerate(grids):
 		print("Solving grid: %d" % (i+1))
 		start_time = time.time()
@@ -234,7 +236,6 @@ def main():
 
 	print("====================================")
 	print("Test script complete, Total points: %d" % points)
-
 
 if __name__ == "__main__":
 	main()
