@@ -464,47 +464,6 @@ def difficulty_level(grid):
     else:
         return 'hard'
 
-"""
-def explain_func(grid, n_rows, n_cols):
-
-    Provides a set of instructions for solving the puzzle
-
-    args: grid, n_rows, n_cols
-    return: A list of commands for solving the puzzle
-
-    n = n_rows * n_cols
-    x_cords = []
-    y_cords = []
-    for rows in range(n):
-        for coll in range(n):
-            if grid[rows][coll] == 0:
-                x_cords.append(rows)
-                y_cords.append(coll)
-    solved = recursive_solve(grid, n_rows, n_cols)
-    for i in range(len(x_cords)):
-        print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(x_cords[i]) + ", " + str(
-            y_cords[i]) + ")")
-    print(solved)
-
-    # not sure how to add the second part however i am going to do it by getting the positions of the zeros in the inputted
-    # grid then finding what they are replaced with.
-
-    n = n_rows * n_cols
-    # Make a copy of the original grid
-    filled_grid = copy.deepcopy(grid)
-
-    # Loop through the rows
-    for i in range(len(grid)):
-        # Loop through the columns
-        for j in range(len(grid[0])):
-            # If we find a zero, fill it in with a random integer
-            if grid[i][j] == 0:
-                filled_grid[i][j] = random.randint(1, n)
-
-    return filled_grid
-"""
-
-
 def explain_func(grid, n_rows, n_cols, user_print=False):
     n = n_rows * n_cols
     x_cords = []
@@ -542,46 +501,6 @@ def solve(grid, n_rows, n_cols, explain=False):
 
 
 file_names = ['easy1.txt', 'easy2.txt', 'med1', 'med2', 'hard1']
-
-"""
-def file(Input, output):
-    grid_input = []
-    with open(Input, "r") as my_file:
-        data = my_file.read().replace(",", "")
-        data = data.replace(" ", "")
-        data = data.replace("\n", "")
-        no_of_characters = len(data)
-        grid_size = no_of_characters ** 0.5
-        temp_array = []
-        count = 0
-        for number in data:
-            count += 1
-            if (count == grid_size):
-                count = 0
-                temp_array.append(int(number))
-                grid_input.append(temp_array)
-                temp_array = []
-            else:
-                temp_array.append(int(number))
-
-    if (grid_size == 6):
-        n_rows = 2
-        n_cols = 3
-    else:
-        n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
-    explaination = explain_func(grid_input, n_rows, n_cols)
-    grid_solved = solve(grid_input, n_rows, n_cols)
-    with open(output, "w") as write_file:
-        for line in explaination:
-            write_file.write(str(line))
-            write_file.write('\n')
-        write_file.write('\n')
-        for line in grid_solved:
-            write_file.write(str(line))
-            write_file.write('\n')
-
-"""
-
 
 def read_file(input_file):
     grid_input = []
@@ -624,12 +543,6 @@ def file(file_input, output):
             write_file.write(str(line))
             write_file.write('\n')
 
-
-#file("easy1.txt", "easy1solved.txt")
-# for i in range(len(file_names)):
-# file(file_names[i], "solved_" + file_names[i])
-
-
 def grid_type(grid):
     grid_size = len(grid)
     if grid_size == 6:
@@ -653,12 +566,8 @@ def grid_difficulty(grid):
 
 
 file_list = os.listdir(".")
-#print(file_list)
 filtered_list = [name for name in file_list if
                 'solved' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
-#print(filtered_list)
-
-# print(filtered_list)
 
 
 def hint(grid, row, col, hint_num):
@@ -711,10 +620,6 @@ for i in range(len(filtered_list)):
     # aver_random_grids.append(average_time(read_file(filtered_list[i])[0]))
 
 
-# print(aver_random_grids)
-# print(aver_recursive_grids)
-
-
 def plot():
     # Declaring the figure or the plot (y, x) or (width, height)
     # plt.figure(figsize=[20, 15])
@@ -745,15 +650,6 @@ def profile(grid):
         f"Average time of execution to recursively solve this {grid_info[0]} grid of difficulty {difficulty_level(grid)} is {average_time(grid)[0]} secs.")
     print(
         f"Average time of execution to randomly solve this {grid_info[0]} grid of difficulty {difficulty_level(grid)} is {average_time(grid)[1]} secs.")
-
-
-# print(file(read_file('easy1.txt')[0], read_file('easy1.txt')[1], 'eazsolved.txt'))
-
-#print(plot())
-# print(profile(grid3))
-#print(explain_func(grid3, 3, 3))
-
-#print(recursive_solve(grid4,2,3))
 
 def parse_command_line_arguments(argv):
     '''
