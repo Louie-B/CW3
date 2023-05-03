@@ -662,6 +662,8 @@ def parse_command_line_arguments(argv):
         hint - "hint file number_of_hints"
         profile - "profile (will read every file on list"
     '''
+    do_recursive = False
+    do_waveform = False
     show_explain = False
     show_file = False
     show_hint = False
@@ -671,22 +673,22 @@ def parse_command_line_arguments(argv):
     num_hints = 0
     if '-explain' in argv:
             if len(argv) > 2:
-                print ("--------------------------------------")
+                print ("\n--------------------------------------")
                 print ("Error: file name cannot contain spaces and file format must be specified")
                 exit()
             else:
                 input_filename = argv[1]
                 show_explain = True
-    if '-file' in argv:
+    elif '-file' in argv:
         if len(argv) > 3:
-            print ("--------------------------------------")
+            print ("\n--------------------------------------")
             print ("Error: file names cannot contain spaces and file format must be specified (except for the output file)")
             exit()
         else:
             input_filename = argv[1]
             output_filename = argv[2]
             show_file = True
-    if '-hint' in argv:
+    elif '-hint' in argv:
         if len(argv) > 3:
             print ("--------------------------------------")
             print ("Error: file names cannot contain spaces and file format must be specified")
@@ -695,11 +697,29 @@ def parse_command_line_arguments(argv):
             input_filename = argv[1]
             num_hints = argv[2]
             show_hint = True
+    elif '-recursive' in argv:
+        if len(argv) > 2:
+            print ("\n--------------------------------------")
+            print ("Error: file name cannot contain spaces and file format must be specified")
+        else:
+            input_filename = argv[1]
+            do_recursive = True
+    elif '-waveform' in argv:
+        if len(argv) > 2:
+            print ("\n--------------------------------------")
+            print ("Error: file name cannot contain spaces and file format must be specified")
+        else:
+            input_filename = argv[1]
+            do_waveform = True
+    else:
+        print ("\n--------------------------------------")
+        print ("LIST OF HOW TO WORK IT")#this needs to be done after every flag is finished
+        print ("--------------------------------------")
 
-    return (show_explain, show_file, show_hint, show_profile, input_filename, output_filename, num_hints)
+    return (show_explain, show_file, show_hint, show_profile, input_filename, output_filename, num_hints, do_recursive, do_waveform)
 
 def main(flags):
-    show_explain, show_file, show_hint, show_profile, input_file, output_file, num_hints = parse_command_line_arguments(flags)
+    show_explain, show_file, show_hint, show_profile, input_file, output_file, num_hints, do_recursive, do_waveform = parse_command_line_arguments(flags)
 
     if show_explain:
         grid_input, grid_size = read_file(input_file)
@@ -721,9 +741,31 @@ def main(flags):
         else:
             n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
         grid = hint(grid_input, n_rows, n_cols, num_hints)
-        print ("--------------------------------------")
+        print ("\n--------------------------------------")
         print (str(num_hints) + " hint(s) given. New grid is now:\n")
         print (grid)
+    if do_recursive:
+        grid_input, grid_size = read_file(input_file)
+        if grid_size == 6:
+            n_rows = 2
+            n_cols = 3
+        else:
+            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
+        print ("\n--------------------------------------")
+        print ("Grid solved recursively:")
+        print ("--------------------------------------")
+        print (recursive_solve(grid_input, n_rows, n_cols))
+    if do_waveform:
+        grid_input, grid_size = read_file(input_file)
+        if grid_size == 6:
+            n_rows = 2
+            n_cols = 3
+        else:
+            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
+        print ("--------------------------------------")
+        print ("Grid solved using waveform propogation:")
+        print ("--------------------------------------")
+        print (wavefront_solve(grid_input, n_rows, n_cols))
 
 
 if __name__ == "__main__":
