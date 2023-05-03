@@ -50,8 +50,8 @@ def generate_range(grid, row, col):
     '''
     This function replaces all the zeros in a grid into a list containing numbers from 1 to the maximum number in a grid.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: grid(The updated grid)
     '''
     max = row * col
@@ -66,7 +66,7 @@ def remove(item, num):
     '''
     This function will remove a number from a set. If the number is not in the set, it will pass.
     args: item - the set.
-		  num - the number that will be removed from item.
+          num - the number that will be removed from item.
     returns: item(the updated item)
     '''
     try:
@@ -81,8 +81,8 @@ def simplify(grid, row, col):
     This function will search for sets of length 1 in a grid and change it into the integer. 
     If the solution was wrong, the function will return False.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: grid(The updated grid) or False(if an empty set appeared)
     '''
     for i in range(row * col):
@@ -98,8 +98,8 @@ def find_least(grid, row, col):
     '''
     This function searches for the set in a grid with the least length, and returns its list index.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: row_num(the row index of the least length set) and col_num(the column index of the least length set)
     '''
     row_count = 0
@@ -123,8 +123,8 @@ def check_row(grid, row, col):
     '''
     Start eliminating by row elements.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: result(The updated grid)
     '''
     appeared = []
@@ -148,8 +148,8 @@ def check_col(grid, row, col):
     '''
     Start eliminating by column elements.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: result(The updated grid)
     '''
     appeared = []
@@ -173,8 +173,8 @@ def check_box(grid, row, col):
     '''
     Start eliminating by square elements.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: result(The updated grid)
     '''
     appeared = []
@@ -208,8 +208,8 @@ def check_fin(grid, row, col):
     '''
     Checks if there are still sets remained in a grid. If no, then the grid is finished.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: True(if the sudoku is fully filled) or False(if there is still blanks to be filled)
     '''
     for i in range(row * col):
@@ -223,8 +223,8 @@ def stuck(grid, row, col):
     '''
     Start a set of eliminating based on the value returned from the 'find_least' function.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: result(The updated grid)
     '''
     copylist = copy.deepcopy(grid)
@@ -243,8 +243,8 @@ def check(grid, row, col):
     '''
     Simplified function to call all the checkers.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: grid(The updated grid)
     '''
     while not check_fin(grid, row, col):
@@ -259,8 +259,8 @@ def check_for_m(grid, row, col):
     '''
     A complex function to use the checkers, with more if statement to prevent crash.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: result(The updated grid)
     '''
     while grid and not check_fin(grid, row, col):
@@ -284,8 +284,8 @@ def wavefront_solve(grid, row, col):
     '''
     The function used for solving the soduku.
     args: grid - representation of a suduko board as a nested list.
-		  row - number of rows in a square.
-		  col - number of columns in a square.
+          row - number of rows in a square.
+          col - number of columns in a square.
     returns: the solved sudoku.
     '''
     generate_range(grid, row, col)
@@ -614,7 +614,8 @@ def file(file_input, output):
         n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
     explaination = explain_func(grid_input, n_rows, n_cols)
     grid_solved = solve(grid_input, n_rows, n_cols)
-    with open(output, "w") as write_file:
+    file_output = str(output) + "solved.txt"
+    with open(file_output, "w") as write_file:
         for line in explaination:
             write_file.write(str(line))
             write_file.write('\n')
@@ -651,10 +652,10 @@ def grid_difficulty(grid):
     return fraction
 
 
-#file_list = os.listdir(".")
+file_list = os.listdir(".")
 #print(file_list)
-#filtered_list = [name for name in file_list if
-                #'solved' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
+filtered_list = [name for name in file_list if
+                'solved' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
 #print(filtered_list)
 
 # print(filtered_list)
@@ -670,7 +671,7 @@ def hint(grid, row, col, hint_num):
             if grid[i][j] == 0:
                 empty_row.append(i)
                 empty_col.append(j)
-    for i in range(hint_num):
+    for i in range(int(hint_num)):
         list_index = random.randint(0, len(empty_row) - 1)
         answer_row = empty_row.pop(empty_row[list_index])
         answer_col = empty_col.pop(empty_col[list_index])
@@ -748,19 +749,86 @@ def profile(grid):
 
 # print(file(read_file('easy1.txt')[0], read_file('easy1.txt')[1], 'eazsolved.txt'))
 
-print(plot())
+#print(plot())
 # print(profile(grid3))
 #print(explain_func(grid3, 3, 3))
 
-print(recursive_solve(grid4,2,3))
+#print(recursive_solve(grid4,2,3))
+
+def parse_command_line_arguments(argv):
+    '''
+    Process a list of command line arguments and determine which action to perform
+
+    args: argv, potentially a file name
+    returns:    
+        explain - "explain filename"
+        file - "file inputfile desired_output_file_name"
+        hint - "hint file number_of_hints"
+        profile - "profile (will read every file on list"
+    '''
+    show_explain = False
+    show_file = False
+    show_hint = False
+    show_profile = False
+    input_filename = ""
+    output_filename = ""
+    num_hints = 0
+    if '-explain' in argv:
+            if len(argv) > 2:
+                print ("--------------------------------------")
+                print ("Error: file name cannot contain spaces and file format must be specified")
+                exit()
+            else:
+                input_filename = argv[1]
+                show_explain = True
+    if '-file' in argv:
+        if len(argv) > 3:
+            print ("--------------------------------------")
+            print ("Error: file names cannot contain spaces and file format must be specified (except for the output file)")
+            exit()
+        else:
+            input_filename = argv[1]
+            output_filename = argv[2]
+            show_file = True
+    if '-hint' in argv:
+        if len(argv) > 3:
+            print ("--------------------------------------")
+            print ("Error: file names cannot contain spaces and file format must be specified")
+            exit()
+        else:
+            input_filename = argv[1]
+            num_hints = argv[2]
+            show_hint = True
+
+    return (show_explain, show_file, show_hint, show_profile, input_filename, output_filename, num_hints)
+
 def main(flags):
-    for flag in flags:
-        if "explain" in flag:
-            en_explain = True
-            print("yes")
-        if "hint" in flag:
-            print("hint found")
+    show_explain, show_file, show_hint, show_profile, input_file, output_file, num_hints = parse_command_line_arguments(flags)
+
+    if show_explain:
+        grid_input, grid_size = read_file(input_file)
+        if grid_size == 6:
+            n_rows = 2
+            n_cols = 3
+        else:
+            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
+        explain_func(grid_input, n_rows, n_cols, True)
+    if show_file:
+        file(input_file, output_file)
+        print ("--------------------------------------")
+        print ("Solution file has been outputted")
+    if show_hint:
+        grid_input, grid_size = read_file(input_file)
+        if grid_size == 6:
+            n_rows = 2
+            n_cols = 3
+        else:
+            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
+        grid = hint(grid_input, n_rows, n_cols, num_hints)
+        print ("--------------------------------------")
+        print (str(num_hints) + " hint(s) given. New grid is now:\n")
+        print (grid)
 
 
 if __name__ == "__main__":
-    main(sys.argv[-1:])
+    main(sys.argv[1:])
