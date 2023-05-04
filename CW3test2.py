@@ -675,7 +675,7 @@ def grid_difficulty(grid):
 # Reads the files in the directory and filters it to find the files with the grids that need to be read and used in the profile function.
 file_list = os.listdir(".")
 filtered_list = [name for name in file_list if
-                 'output' not in name and '.git' not in name and '.png' not in name and '.py' not in name and 'solved' not in name]
+                 'output' not in name and '.git' not in name and '.png' not in name and '.py' not in name and 'solved' not in name and 'README' not in name]
 
 
 
@@ -686,32 +686,40 @@ def average_time(grid):
     return: average_time_recursive, average_time_random, average_time_wave
     """
     total_time = 0
-    total_time_random = 0
+    # total_time_random = 0
     total_time_wavefront = 0
-    # average_time_random = 0
-    average_time_recursive = 0
     grid_info = grid_type(grid)
-    NUM_OF_TRIALS = 10
+    NUM_OF_TRIALS = 10 # decrease the number of trials to decrease time taken to perform function, however doing this will affect accuracy of results.
     grid_ran = copy.deepcopy(grid)
-    print ("⌛Calculating...")
+    print("⌛Calculating...")
+    # Loops through and calculates time taken to solve the grids using the different solvers.
     for i in range(NUM_OF_TRIALS):
         grid_rec = copy.deepcopy(grid)
         rec_start_time = time.time()
-        test_rec = recursive_solve(grid_rec, grid_info[1], grid_info[2])
+        recursive_solve(grid_rec, grid_info[1], grid_info[2])
         rec_end_time = time.time()
         rec_exec_time = rec_end_time - rec_start_time
         total_time += rec_exec_time
+
         grid_wave = copy.deepcopy(grid)
         wave_start_time = time.time()
-        test_wave = wavefront_solve(grid_wave, grid_info[1], grid_info[2])
+        wavefront_solve(grid_wave, grid_info[1], grid_info[2])
         wave_end_time = time.time()
         wave_exec_time = wave_end_time - wave_start_time
         total_time_wavefront += wave_exec_time
+        """
+        The code below was used to find the average time taken to randomly solve the grids, however since it takes too long and sometimes doesnt even solve it, it has been commented out"
+    
+        grid_ran = copy.deepcopy(grid)
+        random_start_time = time.time()
+        random_solve(grid_ran, grid_info[1], grid_info[2], max_tries=500000)
+        random_end_time = time.time()
+        random_exec_time = random_end_time - random_start_time
+        total_time_random += random_exec_time
+        """
     average_time_recursive = total_time / NUM_OF_TRIALS
     # average_time_random = total_time_random / num_of_trials
     average_time_wave = total_time_wavefront / NUM_OF_TRIALS
-    # print(average_time_recursive, average_time_wave)  # average_time_random, average_time_wave
-    # print("Average time of execution for a ", grid_info[0], "is", (total_time / 10), "seconds. Grid difficulty is", grid_difficulty(grid))
     return average_time_recursive, average_time_wave  # average_time_random,
 
 
@@ -724,6 +732,7 @@ def profile():
     aver_random_grids = []
     difficulty_array = []
     grid_type_array = []
+    # loops through and creates an array of the average time taken to solve each grid using the different solvers.
     for i in range(len(filtered_list)):
         aver_recursive_grids.append(average_time(read_file(filtered_list[i])[0])[0])
         # aver_random_grids.append(average_time(read_file(filtered_list[i])[0])[1])
@@ -731,13 +740,13 @@ def profile():
         difficulty_array.append(difficulty_level(read_file(filtered_list[i])[0]))
         grid_type_array.append(grid_type(read_file(filtered_list[i])[0])[0])
     fig, ax = plt.subplots(figsize=(8, 5))
-    plt.subplots_adjust(left=0.10, bottom=0.15, right=0.95, top=0.90)
-    ax.set_yscale('log')
+    plt.subplots_adjust(left=0.10, bottom=0.15, right=0.95, top=0.90) # ensures that the bar plot fits inside the figure.
+    ax.set_yscale('log') # log scale in y-axis
     X = np.arange(len(filtered_list))
-    ax.bar(X, aver_recursive_grids, color='b', width=0.25)
+    ax.bar(X, aver_recursive_grids, color='b', width=0.35) # bar plot for recursive grid
     # ax.bar(X + 0.25, aver_random_grids, color='r', width=0.25)
-    ax.bar(X + 0.5, aver_wave_grids, color='g', width=0.25)
-    ax.legend(['Recursive', 'Wavefront', 'Random'])
+    ax.bar(X + 0.35, aver_wave_grids, color='g', width=0.35) # bar plot for wavefront grid
+    ax.legend(['Recursive Plus', 'Wavefront', 'Random'])
     concatenated_array_recursive = [i + '\n' + j + str(k) for i, j, k in
                                     zip(filtered_list, difficulty_array, grid_type_array)]
     ax.set_xticks([i + 0.25 for i in range(len(filtered_list))], concatenated_array_recursive)
