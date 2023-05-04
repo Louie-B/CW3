@@ -629,7 +629,7 @@ def grid_difficulty(grid):
 # Reads the files in the directory and filters it to find the files with the grids that need to be read and used in the profile function.
 file_list = os.listdir(".")
 filtered_list = [name for name in file_list if
-                 'output' not in name and '.git' not in name and '.png' not in name and '.py' not in name and 'solved' not in name]
+                 'output' not in name and '.git' not in name and '.png' not in name and '.py' not in name and 'solved' not in name and 'README' not in name]
 
 
 def average_time(grid):
@@ -790,49 +790,69 @@ def parse_command_line_arguments(argv):
     return (show_explain, show_file, show_hint, show_profile, input_filename, output_filename, num_hints, do_recursive,
             do_waveform, explain)
 
-
 def main(flags):
     show_explain, show_file, show_hint, show_profile, input_file, output_file, num_hints, do_recursive, do_waveform, explain = parse_command_line_arguments(
         flags)
-    if show_explain:
+
+    if show_explain: # runs Explain flag
         grid_input, grid_size = read_file(input_file)
-        explain_func(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2], True)
-    if show_file:
+        if grid_size == 6:
+            n_rows = 2
+            n_cols = 3
+        else:
+            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
+        explain_func(grid_input, n_rows, n_cols, True)
+    if show_file: #runs file flag
         if explain:
             file(input_file, output_file, True)
         else:
             file(input_file, output_file)
         print("--------------------------------------")
         print("Solution file has been outputted")
-    if show_hint:
-        grid_input = read_file(input_file)
+    if show_hint: # runs hint flag
+        grid_input, grid_size = read_file(input_file)
+        if grid_size == 6:
+            n_rows = 2
+            n_cols = 3
+        else:
+            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
         print("\n--------------------------------------")
         print(str(num_hints) + " hint(s) given. New grid is now:\n")
         if explain:
-            print(explain_func(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2], True, num_hints))
+            print(explain_func(grid_input, n_rows, n_cols, True, num_hints))
         else:
-            grid = hint(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2], num_hints)
+            grid = hint(grid_input, n_rows, n_cols, num_hints)
             print(grid)
-    if show_profile:
+    if show_profile: #runs profile flag
         profile()
         print("\n--------------------------------------")
-        print("Graph solved as solver_performance.png\n")
-    if do_recursive:
-        grid_input = read_file(input_file)[0]
+        print("Graph solved as solverperformance.png\n")
+    if do_recursive: # runs recursive solver
+        grid_input, grid_size = read_file(input_file)
+        if grid_size == 6:
+            n_rows = 2
+            n_cols = 3
+        else:
+            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
         print("\n--------------------------------------")
         print("Grid solved recursively:")
         print("--------------------------------------")
-        print(recursive_solve(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2]))
-    if do_waveform:
-        grid_input = read_file(input_file)[0]
+        print(recursive_solve(grid_input, n_rows, n_cols))
+    if do_waveform: # runs wavefront solver
+        grid_input, grid_size = read_file(input_file)
+        if grid_size == 6:
+            n_rows = 2
+            n_cols = 3
+        else:
+            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
         print("--------------------------------------")
-        print("Grid solved using wavefront propagation:")
+        print("Grid solved using wavefront propogation:")
         print("--------------------------------------")
-        print(wavefront_solve(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2]))
+        print(wavefront_solve(grid_input, n_rows, n_cols))
 
 
 if __name__ == "__main__":
     print("\n--------------------------------------")
-    print("OPEN README.txt FOR HOW TO USE PROGRAM")  # this needs to be done after every flag is finished
+    print("OPEN README.txt FOR HOW TO USE PROGRAM")  
     print("--------------------------------------")
     main(sys.argv[1:])
