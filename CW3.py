@@ -307,12 +307,20 @@ def wavefront_solve(grid, row, col):
 
 
 def check_section(section, n):
+    '''
+    This checks if the section is correct.
+    args: section - The row or column that is being checked
+    n - size of the sudoku
+    '''
     if len(set(section)) == len(section) and sum(section) == sum([i for i in range(n + 1)]):
         return True
     return False
 
 
 def get_squares(grid, n_rows, n_cols):
+    '''
+    This function creates a list of all the squares in the sudoku.
+    '''
     squares = []
     for i in range(n_cols):
         rows = (i * n_rows, (i + 1) * n_rows)
@@ -399,6 +407,7 @@ def recursive_solve(grid, n_rows, n_cols):
             return None
     else:
         row, col = empty
+    #this creates a list of the columns in the sudoku
     list_column = []
     list_column_grid = []
     for rows in range(n):
@@ -485,6 +494,13 @@ def difficulty_level(grid):
 
 
 def explain_func(grid, n_rows, n_cols, user_print=False):
+    '''
+    This function outputs a list of instructions to solve the sudoku.
+    args: grid - The grid you want checked
+    n_rows - number of rows.
+    n_cols - number of collumns.
+    user_print - makes an array of the outputs if set to True.
+    '''
     n = n_rows * n_cols
     x_cords = []
     y_cords = []
