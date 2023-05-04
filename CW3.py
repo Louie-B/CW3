@@ -58,13 +58,13 @@ grid5 = [
 
 # start of functions of wavefront solving
 def generate_range(grid, row, col):
-    '''
+    """
     This function replaces all the zeros in a grid into a list containing numbers from 1 to the maximum number in a grid.
     args: grid - representation of a suduko board as a nested list.
           row - number of rows in a square.
           col - number of columns in a square.
     returns: grid(The updated grid)
-    '''
+    """
     max = row * col
     for i in range(row * col):
         for j in range(col * row):
@@ -74,12 +74,12 @@ def generate_range(grid, row, col):
 
 
 def remove(item, num):
-    '''
+    """
     This function will remove a number from a set. If the number is not in the set, it will pass.
     args: item - the set.
           num - the number that will be removed from item.
     returns: item(the updated item)
-    '''
+    """
     try:
         item.remove(num)
         return item
@@ -115,15 +115,15 @@ def find_least(grid, row, col):
     '''
     row_count = 0
     col_count = 0
-    least_lenth = row * col
+    least_length = row * col
     row_num = 0
     col_num = 0
     while row_count < row * col:
         while col_count < col * row:
-            if isinstance(grid[row_count][col_count], list) and len(grid[row_count][col_count]) < least_lenth:
+            if isinstance(grid[row_count][col_count], list) and len(grid[row_count][col_count]) < least_length:
                 row_num = row_count
                 col_num = col_count
-                least_lenth = len(grid[row_count][col_count])
+                least_length = len(grid[row_count][col_count])
             col_count += 1
         col_count = 0
         row_count += 1
@@ -293,7 +293,7 @@ def check_for_m(grid, row, col):
 
 def wavefront_solve(grid, row, col):
     '''
-    The function used for solving the soduku.
+    The function used for solving the sudoku.
     args: grid - representation of a suduko board as a nested list.
           row - number of rows in a square.
           col - number of columns in a square.
@@ -695,7 +695,6 @@ def profile():
     plt.show()
 
 
-print(profile())
 """
 random_start_time = time.time()
         test2 = random_solve(grid_ran, grid_info[1], grid_info[2], max_tries=500000)
