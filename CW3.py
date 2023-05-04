@@ -44,7 +44,8 @@ grid6 = [
     [0, 0, 1, 0, 0, 0],
     [0, 5, 0, 0, 6, 4]]
 
-grids = [(grid1, 2, 2), (grid2, 2, 2), (grid3, 2, 2), (grid4, 2, 2), (grid5, 2, 2), (grid6, 3, 3)]
+
+grids = [(grid1, 2, 2), (grid2, 2, 2), (grid3, 2, 2), (grid4, 2, 2), (grid5, 2, 2), (grid6,2,3)]
 
 
 # start of functions of wavefront solving
@@ -373,6 +374,56 @@ def find_empty(grid):
 
     return None
 
+def basic_recursive_solve(grid, n_rows, n_cols):
+    '''
+    This function uses recursion to exhaustively search all possible solutions to a grid
+    until the solution is found
+
+    args: grid, n_rows, n_cols
+    return: A solved grid (as a nested list), or None
+    '''
+
+    # N is the maximum integer considered in this board
+    n = n_rows * n_cols
+    # Find an empty place in the grid
+    empty = find_empty(grid)
+
+    # If there's no empty places left, check if we've found a solution
+    if not empty:
+        # If the solution is correct, return it.
+        if check_solution(grid, n_rows, n_cols):
+            return grid
+        else:
+            # If the solution is incorrect, return None
+            return None
+    else:
+        row, col = empty
+    #this creates a list of the columns in the sudoku
+    list_column = []
+    list_column_grid = []
+    for rows in range(n):
+        for coll in range(n):
+            list_column.append(grid[coll][rows])
+        list_column_grid.append(list_column)
+        list_column = []
+    # Loop through possible values
+    for i in range(1, n + 1):
+        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0:
+            # Place the value into the grid
+            grid[row][col] = i
+            # Recursively solve the grid
+            ans = basic_recursive_solve(grid, n_rows, n_cols)
+
+            # If we've found a solution, return it
+            if ans:
+                return ans
+
+            # If we couldn't find a solution, that must mean this value is incorrect.
+            # Reset the grid for the next iteration of the loop
+            grid[row][col] = 0
+
+        # If we get here, we've tried all possible values. Return none to indicate the previous value is incorrect.
+    return None
 
 def recursive_solve(grid, n_rows, n_cols):
     '''
@@ -650,27 +701,36 @@ def average_time(grid):
     # average_time_random = 0
     average_time_recursive = 0
     grid_info = grid_type(grid)
-    NUM_OF_TRIALS = 10
+    NUM_OF_TRIALS = 10 # decrease the number of trials to decrease time taken to perform function, however doing this will affect accuracy of results.
     grid_ran = copy.deepcopy(grid)
     print("⌛Calculating...")
     for i in range(NUM_OF_TRIALS):
         grid_rec = copy.deepcopy(grid)
         rec_start_time = time.time()
-        test_rec = recursive_solve(grid_rec, grid_info[1], grid_info[2])
+        recursive_solve(grid_rec, grid_info[1], grid_info[2])
         rec_end_time = time.time()
         rec_exec_time = rec_end_time - rec_start_time
         total_time += rec_exec_time
+
         grid_wave = copy.deepcopy(grid)
         wave_start_time = time.time()
-        test_wave = wavefront_solve(grid_wave, grid_info[1], grid_info[2])
+        wavefront_solve(grid_wave, grid_info[1], grid_info[2])
         wave_end_time = time.time()
         wave_exec_time = wave_end_time - wave_start_time
         total_time_wavefront += wave_exec_time
+        """
+        The code below was used to find the average time taken to randomly solve the grids, however since it takes too long and sometimes doesnt even solve it, it has been commented out"
+    
+        grid_ran = copy.deepcopy(grid)
+        random_start_time = time.time()
+        random_solve(grid_ran, grid_info[1], grid_info[2], max_tries=500000)
+        random_end_time = time.time()
+        random_exec_time = random_end_time - random_start_time
+        total_time_random += random_exec_time
+        """
     average_time_recursive = total_time / NUM_OF_TRIALS
     # average_time_random = total_time_random / num_of_trials
     average_time_wave = total_time_wavefront / NUM_OF_TRIALS
-    # print(average_time_recursive, average_time_wave)  # average_time_random, average_time_wave
-    # print("Average time of execution for a ", grid_info[0], "is", (total_time / 10), "seconds. Grid difficulty is", grid_difficulty(grid))
     return average_time_recursive, average_time_wave  # average_time_random,
 
 
@@ -693,9 +753,9 @@ def profile():
     plt.subplots_adjust(left=0.10, bottom=0.15, right=0.95, top=0.90)
     ax.set_yscale('log')
     X = np.arange(len(filtered_list))
-    ax.bar(X, aver_recursive_grids, color='b', width=0.25)
+    ax.bar(X, aver_recursive_grids, color='b', width=0.35)
     # ax.bar(X + 0.25, aver_random_grids, color='r', width=0.25)
-    ax.bar(X + 0.5, aver_wave_grids, color='g', width=0.25)
+    ax.bar(X + 0.35, aver_wave_grids, color='g', width=0.35)
     ax.legend(['Recursive', 'Wavefront', 'Random'])
     concatenated_array_recursive = [i + '\n' + j + str(k) for i, j, k in
                                     zip(filtered_list, difficulty_array, grid_type_array)]
@@ -706,6 +766,7 @@ def profile():
     fig.savefig('solver_performance.png')
     plt.show()
 
+print(profile())
 
 """
 random_start_time = time.time()
@@ -782,13 +843,15 @@ def parse_command_line_arguments(argv):
         if len(argv) > 2:
             print("\n--------------------------------------")
             print("Error: file name cannot contain spaces and file format must be specified")
+            exit()
         else:
             input_filename = argv[1]
             do_recursive = True
-    elif '-waveform' in argv:
+    elif '-wavefront' in argv:
         if len(argv) > 2:
             print("\n--------------------------------------")
             print("Error: file name cannot contain spaces and file format must be specified")
+            exit()
         else:
             input_filename = argv[1]
             do_waveform = True
@@ -796,9 +859,11 @@ def parse_command_line_arguments(argv):
         show_profile = True
     else:
         print("\n--------------------------------------")
-        print("LIST OF HOW TO WORK IT")  # this needs to be done after every flag is finished
-        print("--------------------------------------")
-
+        for (i, (grid, n_rows, n_cols)) in enumerate(grids):
+            print ("Solving provided grid number "+str(i+1))
+            print (wavefront_solve(grid, n_rows, n_cols))
+            print("\n--------------------------------------")
+            
     return (show_explain, show_file, show_hint, show_profile, input_filename, output_filename, num_hints, do_recursive,
             do_waveform, explain)
 
@@ -838,10 +903,13 @@ def main(flags):
     if do_waveform:
         grid_input = read_file(input_file)[0]
         print("--------------------------------------")
-        print("Grid solved using waveform propagation:")
+        print("Grid solved using wavefront propagation:")
         print("--------------------------------------")
         print(wavefront_solve(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2]))
 
 
 if __name__ == "__main__":
+    print("\n--------------------------------------")
+    print("LIST OF HOW TO WORK IT")  # this needs to be done after every flag is finished
+    print("--------------------------------------")
     main(sys.argv[1:])
