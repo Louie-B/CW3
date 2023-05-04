@@ -493,7 +493,25 @@ def difficulty_level(grid):
         return 'H'
 
 
-def explain_func(grid, n_rows, n_cols, user_print=False):
+def hint(grid, row, col, hint_num):
+    copy_grid = copy.deepcopy(grid)
+    answer_grid = wavefront_solve(copy_grid, row, col)
+    empty_row = []
+    empty_col = []
+    for i in range(row * col):
+        for j in range(col * row):
+            if grid[i][j] == 0:
+                empty_row.append(i)
+                empty_col.append(j)
+    for i in range(int(hint_num)):
+        list_index = random.randint(0, len(empty_row) - 1)
+        answer_row = empty_row.pop(list_index)
+        answer_col = empty_col.pop(list_index)
+        grid[answer_row][answer_col] = answer_grid[answer_row][answer_col]
+    return grid
+
+
+def explain_func(grid, n_rows, n_cols, user_print=False, hints = 0):
     '''
     This function outputs a list of instructions to solve the sudoku.
     args: grid - The grid you want checked
@@ -509,11 +527,14 @@ def explain_func(grid, n_rows, n_cols, user_print=False):
             if grid[rows][coll] == 0:
                 x_cords.append(rows)
                 y_cords.append(coll)
-    solved = recursive_solve(grid, n_rows, n_cols)
+    if (hints == 0):
+        solved = recursive_solve(grid, n_rows, n_cols)
+    else:
+        solved = hint(grid, n_rows, n_cols, hints)
     if (user_print == True):
         for i in range(len(x_cords)):
-            print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(x_cords[i]) + ", " + str(
-                y_cords[i]) + ")")
+            if (solved[(x_cords[i])][(y_cords[i])] != 0):
+                print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(x_cords[i]) + ", " + str(y_cords[i]) + ")")
         print(solved)
     else:
         explain_array = []
@@ -521,6 +542,7 @@ def explain_func(grid, n_rows, n_cols, user_print=False):
             explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(
                 x_cords[i]) + ", " + str(y_cords[i]) + ")"))
         return explain_array
+
 
 
 def solve(grid, n_rows, n_cols, explain=False):
@@ -562,7 +584,7 @@ def read_file(input_file):
     return grid_input, grid_size
 
 
-def file(file_input, output):
+def file(file_input, output, explain = False):
     """
     A function that solves the grid from the file read using the read_file function, and outputs a file with the solved grid.
     args: grid
@@ -578,10 +600,11 @@ def file(file_input, output):
     grid_solved = solve(grid_input, n_rows, n_cols)
     file_output = str(output) + "output"
     with open(file_output, "w") as write_file:
-        for line in explanation:
-            write_file.write(str(line))
+        if explain:
+            for line in explanation:
+                write_file.write(str(line))
+                write_file.write('\n')
             write_file.write('\n')
-        write_file.write('\n')
         for line in grid_solved:
             write_file.write(str(line))
             write_file.write('\n')
@@ -621,25 +644,8 @@ def grid_difficulty(grid):
 # Reads the files in the directory and filters it to find the files with the grids that need to be read and used in the profile function.
 file_list = os.listdir(".")
 filtered_list = [name for name in file_list if
-                 'output' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
+                 'output' not in name and '.git' not in name and '.png' not in name and '.py' not in name and 'solved' not in name]
 
-
-def hint(grid, row, col, hint_num):
-    copy_grid = copy.deepcopy(grid)
-    answer_grid = wavefront_solve(copy_grid, row, col)
-    empty_row = []
-    empty_col = []
-    for i in range(row * col):
-        for j in range(col * row):
-            if grid[i][j] == 0:
-                empty_row.append(i)
-                empty_col.append(j)
-    for i in range(int(hint_num)):
-        list_index = random.randint(0, len(empty_row) - 1)
-        answer_row = empty_row.pop(empty_row[list_index])
-        answer_col = empty_col.pop(empty_col[list_index])
-        grid[answer_row][answer_col] = answer_grid[answer_row][answer_col]
-    return grid
 
 
 def average_time(grid):
@@ -656,6 +662,7 @@ def average_time(grid):
     grid_info = grid_type(grid)
     NUM_OF_TRIALS = 10
     grid_ran = copy.deepcopy(grid)
+    print ("⌛Calculating...")
     for i in range(NUM_OF_TRIALS):
         grid_rec = copy.deepcopy(grid)
         rec_start_time = time.time()
@@ -672,7 +679,7 @@ def average_time(grid):
     average_time_recursive = total_time / NUM_OF_TRIALS
     # average_time_random = total_time_random / num_of_trials
     average_time_wave = total_time_wavefront / NUM_OF_TRIALS
-    print(average_time_recursive, average_time_wave)  # average_time_random, average_time_wave
+    # print(average_time_recursive, average_time_wave)  # average_time_random, average_time_wave
     # print("Average time of execution for a ", grid_info[0], "is", (total_time / 10), "seconds. Grid difficulty is", grid_difficulty(grid))
     return average_time_recursive, average_time_wave  # average_time_random,
 
@@ -699,10 +706,9 @@ def profile():
     ax.bar(X, aver_recursive_grids, color='b', width=0.25)
     # ax.bar(X + 0.25, aver_random_grids, color='r', width=0.25)
     ax.bar(X + 0.5, aver_wave_grids, color='g', width=0.25)
-    ax.legend(['Recursive', 'Random', 'wavefront_solver'])
+    ax.legend(['Recursive', 'Wavefront', 'Random'])
     concatenated_array_recursive = [i + '\n' + j + str(k) for i, j, k in
                                     zip(filtered_list, difficulty_array, grid_type_array)]
-    print(concatenated_array_recursive)
     ax.set_xticks([i + 0.25 for i in range(len(filtered_list))], concatenated_array_recursive)
     ax.set_title("Bar plot comparing the performance of each solver")
     ax.set_xlabel('Grid Files')
@@ -738,8 +744,8 @@ def parse_command_line_arguments(argv):
     args: argv, potentially a file name
     returns:    
         explain - "explain filename"
-        file - "file inputfile desired_output_file_name"
-        hint - "hint file number_of_hints"
+        file - "file inputfile desired_output_file_name" '-explain' if also needed
+        hint - "hint file number_of_hints" '-explain' if also needed
         profile - "profile (will read every file on list"
     '''
     do_recursive = False
@@ -748,10 +754,11 @@ def parse_command_line_arguments(argv):
     show_file = False
     show_hint = False
     show_profile = False
+    explain = False
     input_filename = ""
     output_filename = ""
     num_hints = 0
-    if '-explain' in argv:
+    if ('-explain' in argv and '-file' not in argv and '-hint' not in argv):
         if len(argv) > 2:
             print("\n--------------------------------------")
             print("Error: file name cannot contain spaces and file format must be specified")
@@ -760,24 +767,26 @@ def parse_command_line_arguments(argv):
             input_filename = argv[1]
             show_explain = True
     elif '-file' in argv:
-        if len(argv) > 3:
+        if len(argv) > 4:
             print("\n--------------------------------------")
             print(
                 "Error: file names cannot contain spaces and file format must be specified (except for the output file)")
             exit()
-        else:
-            input_filename = argv[1]
-            output_filename = argv[2]
-            show_file = True
+        if '-explain' in argv:
+            explain = True
+        input_filename = argv[1]
+        output_filename = argv[2]
+        show_file = True
     elif '-hint' in argv:
-        if len(argv) > 3:
+        if len(argv) > 4:
             print("--------------------------------------")
-            print("Error: file names cannot contain spaces and file format must be specified")
+            print("Error: file names cannot contain spaces and file format must be specified. Ensure spaces are correctly")
             exit()
-        else:
-            input_filename = argv[1]
-            num_hints = argv[2]
-            show_hint = True
+        if '-explain' in argv:
+            explain = True
+        input_filename = argv[1]
+        num_hints = argv[2]
+        show_hint = True
     elif '-recursive' in argv:
         if len(argv) > 2:
             print("\n--------------------------------------")
@@ -792,17 +801,19 @@ def parse_command_line_arguments(argv):
         else:
             input_filename = argv[1]
             do_waveform = True
+    elif '-profile' in argv:
+        show_profile = True
     else:
         print("\n--------------------------------------")
         print("LIST OF HOW TO WORK IT")  # this needs to be done after every flag is finished
         print("--------------------------------------")
 
     return (show_explain, show_file, show_hint, show_profile, input_filename, output_filename, num_hints, do_recursive,
-            do_waveform)
+            do_waveform, explain)
 
 
 def main(flags):
-    show_explain, show_file, show_hint, show_profile, input_file, output_file, num_hints, do_recursive, do_waveform = parse_command_line_arguments(
+    show_explain, show_file, show_hint, show_profile, input_file, output_file, num_hints, do_recursive, do_waveform, explain = parse_command_line_arguments(
         flags)
 
     if show_explain:
@@ -814,7 +825,10 @@ def main(flags):
             n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
         explain_func(grid_input, n_rows, n_cols, True)
     if show_file:
-        file(input_file, output_file)
+        if explain:
+            file(input_file, output_file, True)
+        else:
+            file(input_file, output_file)
         print("--------------------------------------")
         print("Solution file has been outputted")
     if show_hint:
@@ -824,10 +838,17 @@ def main(flags):
             n_cols = 3
         else:
             n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
-        grid = hint(grid_input, n_rows, n_cols, num_hints)
         print("\n--------------------------------------")
         print(str(num_hints) + " hint(s) given. New grid is now:\n")
-        print(grid)
+        if explain:
+            print(explain_func(grid_input, n_rows, n_cols, True, num_hints))
+        else:
+            grid = hint(grid_input, n_rows, n_cols, num_hints)
+            print(grid)
+    if show_profile:
+        profile()
+        print("\n--------------------------------------")
+        print("Graph solved as solverperformance.png\n")
     if do_recursive:
         grid_input, grid_size = read_file(input_file)
         if grid_size == 6:
