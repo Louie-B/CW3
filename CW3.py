@@ -587,21 +587,9 @@ def explain_func(grid, n_rows, n_cols, user_print=False, hints=0):
         return explain_array
 
 
-def solve(grid, n_rows, n_cols, explain=False):
-    '''
-    Solve function for Sudoku coursework.
-    Comment out one of the lines below to either use the random or recursive solver
-    '''
-    if explain == True:
-        explain_func(grid, n_rows, n_cols, True)
-    # return random_solve(grid, n_rows, n_cols)
-    else:
-        return recursive_solve(grid, n_rows, n_cols)
-
-
 def read_file(input_file):
     """
-    A function that reads the file in the directory and returns the grid inside of it.
+    A function that reads the file in the directory and returns the grid inside it.
     args: input_file (file name)
     return: type of grid_input
     """
@@ -639,7 +627,7 @@ def file(file_input, output, explain=False):
     else:
         n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
     explanation = explain_func(grid_input, n_rows, n_cols)
-    grid_solved = solve(grid_input, n_rows, n_cols)
+    grid_solved = wavefront_solve(grid_input, n_rows, n_cols)
     file_output = str(output) + "output"
     with open(file_output, "w") as write_file:
         if explain:
@@ -809,8 +797,9 @@ def parse_command_line_arguments(argv):
     input_filename = ""
     output_filename = ""
     num_hints = 0
-    if '-explain' in argv and '-file' not in argv and '-hint' not in argv:
-        if len(argv) > 2:
+    if ('-explain' in argv and '-file' not in argv and '-hint' not in argv):
+        if (len(argv) != 2):
+
             print("\n--------------------------------------")
             print("Error: file name cannot contain spaces and file format must be specified")
             exit()
@@ -818,7 +807,7 @@ def parse_command_line_arguments(argv):
             input_filename = argv[1]
             show_explain = True
     elif '-file' in argv:
-        if len(argv) > 4:
+        if ((len(argv) > 4) or (len(argv) < 3)):
             print("\n--------------------------------------")
             print(
                 "Error: file names cannot contain spaces and file format must be specified (except for the output file)")
@@ -829,7 +818,7 @@ def parse_command_line_arguments(argv):
         output_filename = argv[2]
         show_file = True
     elif '-hint' in argv:
-        if len(argv) > 4:
+        if ((len(argv) > 4) or (len(argv) < 3)):
             print("--------------------------------------")
             print(
                 "Error: file names cannot contain spaces and file format must be specified. Ensure spaces are correctly")
@@ -840,7 +829,7 @@ def parse_command_line_arguments(argv):
         num_hints = argv[2]
         show_hint = True
     elif '-recursive' in argv:
-        if len(argv) > 2:
+        if ((len(argv) > 2) or (len(argv) < 1)):
             print("\n--------------------------------------")
             print("Error: file name cannot contain spaces and file format must be specified")
             exit()
@@ -848,7 +837,8 @@ def parse_command_line_arguments(argv):
             input_filename = argv[1]
             do_recursive = True
     elif '-wavefront' in argv:
-        if len(argv) > 2:
+        if ((len(argv) > 2) or (len(argv) < 1)):
+
             print("\n--------------------------------------")
             print("Error: file name cannot contain spaces and file format must be specified")
             exit()
@@ -910,6 +900,6 @@ def main(flags):
 
 if __name__ == "__main__":
     print("\n--------------------------------------")
-    print("LIST OF HOW TO WORK IT")  # this needs to be done after every flag is finished
+    print("OPEN README.txt FOR HOW TO USE PROGRAM")  # this needs to be done after every flag is finished
     print("--------------------------------------")
     main(sys.argv[1:])
