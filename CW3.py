@@ -486,7 +486,16 @@ def difficulty_level(grid):
         return 'H'
 
 
+
 def hint(grid, row, col, hint_num):
+    '''
+    This function will fill answers into the grid, which the number is due to hint_num.
+    args: grid - representation of a suduko board as a nested list.
+          row - number of rows in a square.
+          col - number of columns in a square.
+          hint_num - the number of hints to be filled.
+    returns: grid(the new grid with filled hints)
+    '''
     copy_grid = copy.deepcopy(grid)
     answer_grid = wavefront_solve(copy_grid, row, col)
     empty_row = []
@@ -701,7 +710,6 @@ def profile():
     ax.set_ylabel('Time (Seconds)')
     fig.savefig('solver_performance.png')
     plt.show()
-
 
 
 def parse_command_line_arguments(argv):
