@@ -400,7 +400,7 @@ def recursive_solve(grid, n_rows, n_cols):
             return None
     else:
         row, col = empty
-    # this creates a list of the columns in the sudoku
+    #this creates a list of the columns in the sudoku
     list_column = []
     list_column_grid = []
     for rows in range(n):
@@ -414,8 +414,7 @@ def recursive_solve(grid, n_rows, n_cols):
     num_of_square = x + (n_rows * y)
     # Loop through possible values
     for i in range(1, n + 1):
-        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0 and get_squares(grid, n_rows, n_cols)[
-            num_of_square].count(i) == 0:
+        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0 and get_squares(grid, n_rows, n_cols)[num_of_square].count(i) == 0: #Makes sure only the correct number
             # Place the value into the grid
             grid[row][col] = i
             # Recursively solve the grid
@@ -512,40 +511,39 @@ def hint(grid, row, col, hint_num):
         grid[answer_row][answer_col] = answer_grid[answer_row][answer_col]
     return grid
 
-
-def explain_func(grid, n_rows, n_cols, user_print=False, hints=0):
+def explain_func(grid, n_rows, n_cols, user_print=False, hints = 0):
     '''
     This function outputs a list of instructions to solve the sudoku.
     args: grid - The grid you want checked
     n_rows - number of rows.
-    n_cols - number of columns.
-    user_print - makes an array of the outputs if set to True.
+    n_cols - number of collumns.
+    user_print - Only True if only the explain flag is being ran.
     '''
     n = n_rows * n_cols
-    x_cords = []
-    y_cords = []
-    for rows in range(n):
+    x_cords = [] #list of X cords
+    y_cords = [] #list of y cords
+    #This searches through every position and appends the location if its a zero
+    for rows in range(n): 
         for coll in range(n):
             if grid[rows][coll] == 0:
                 x_cords.append(rows)
                 y_cords.append(coll)
-    if hints == 0:
+    if (hints == 0): # Runs if the hint flag hasnt been ran
         solved = recursive_solve(grid, n_rows, n_cols)
+
     else:
-        solved = hint(grid, n_rows, n_cols, hints)
-    if user_print == True:
+        solved = hint(grid, n_rows, n_cols, hints) #Sets the grid to the new amount of hints
+    if (user_print == True): # If explain flag is ran on its own 
         for i in range(len(x_cords)):
-            if solved[(x_cords[i])][(y_cords[i])] != 0:
-                print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(
-                    x_cords[i]) + ", " + str(y_cords[i]) + ")")
-        print(solved)
+            if (solved[(x_cords[i])][(y_cords[i])] != 0): 
+                print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(x_cords[i]) + ", " + str(y_cords[i]) + ")") #prints position of new additions
+        print(solved) 
     else:
-        explain_array = []
+        explain_array = [] # A list of all the inputed numbers
         for i in range(len(x_cords)):
             explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(
                 x_cords[i]) + ", " + str(y_cords[i]) + ")"))
         return explain_array
-
 
 def read_file(input_file):
     """
