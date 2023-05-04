@@ -1,6 +1,6 @@
 How to use the flags:
 
-Note: These flags all take into consideration that the files being inputted containing the grids are in the same folder as the program itself. 
+Note: These flags all take into consideration that the files being inputted containing the grids are in the same directory as the program itself and should either be a .txt file or normal textfile. 
 
  1. for getting an explaination of how a grid is solved, input: '-explain "input filename"' (where filename is specified to its filetype as well if necessary)
 
