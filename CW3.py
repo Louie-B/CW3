@@ -7,44 +7,44 @@ import sys
 import os
 
 grid1 = [
-		[1, 0, 4, 2],
-		[4, 2, 1, 3],
-		[2, 1, 3, 4],
-		[3, 4, 2, 1]]
+    [1, 0, 4, 2],
+    [4, 2, 1, 3],
+    [2, 1, 3, 4],
+    [3, 4, 2, 1]]
 
 grid2 = [
-		[1, 0, 4, 2],
-		[4, 2, 1, 3],
-		[2, 1, 0, 4],
-		[3, 4, 2, 1]]
+    [1, 0, 4, 2],
+    [4, 2, 1, 3],
+    [2, 1, 0, 4],
+    [3, 4, 2, 1]]
 
 grid3 = [
-		[1, 0, 4, 2],
-		[4, 2, 1, 0],
-		[2, 1, 0, 4],
-		[0, 4, 2, 1]]
+    [1, 0, 4, 2],
+    [4, 2, 1, 0],
+    [2, 1, 0, 4],
+    [0, 4, 2, 1]]
 
 grid4 = [
-		[1, 0, 4, 2],
-		[0, 2, 1, 0],
-		[2, 1, 0, 4],
-		[0, 4, 2, 1]]
+    [1, 0, 4, 2],
+    [0, 2, 1, 0],
+    [2, 1, 0, 4],
+    [0, 4, 2, 1]]
 
 grid5 = [
-		[1, 0, 0, 2],
-		[0, 0, 1, 0],
-		[0, 1, 0, 4],
-		[0, 0, 0, 1]]
+    [1, 0, 0, 2],
+    [0, 0, 1, 0],
+    [0, 1, 0, 4],
+    [0, 0, 0, 1]]
 
 grid6 = [
-		[0, 0, 6, 0, 0, 3],
-		[5, 0, 0, 0, 0, 0],
-		[0, 1, 3, 4, 0, 0],
-		[0, 0, 0, 0, 0, 6],
-		[0, 0, 1, 0, 0, 0],
-		[0, 5, 0, 0, 6, 4]]
+    [0, 0, 6, 0, 0, 3],
+    [5, 0, 0, 0, 0, 0],
+    [0, 1, 3, 4, 0, 0],
+    [0, 0, 0, 0, 0, 6],
+    [0, 0, 1, 0, 0, 0],
+    [0, 5, 0, 0, 6, 4]]
 
-grids = [(grid1, 2, 2), (grid2, 2, 2), (grid3, 2, 2), (grid4, 2, 2), (grid5, 2, 2),(grid6,3,3)]
+grids = [(grid1, 2, 2), (grid2, 2, 2), (grid3, 2, 2), (grid4, 2, 2), (grid5, 2, 2), (grid6, 3, 3)]
 
 
 # start of functions of wavefront solving
@@ -398,7 +398,7 @@ def recursive_solve(grid, n_rows, n_cols):
             return None
     else:
         row, col = empty
-    #this creates a list of the columns in the sudoku
+    # this creates a list of the columns in the sudoku
     list_column = []
     list_column_grid = []
     for rows in range(n):
@@ -502,7 +502,7 @@ def hint(grid, row, col, hint_num):
     return grid
 
 
-def explain_func(grid, n_rows, n_cols, user_print=False, hints = 0):
+def explain_func(grid, n_rows, n_cols, user_print=False, hints=0):
     '''
     This function outputs a list of instructions to solve the sudoku.
     args: grid - The grid you want checked
@@ -518,14 +518,15 @@ def explain_func(grid, n_rows, n_cols, user_print=False, hints = 0):
             if grid[rows][coll] == 0:
                 x_cords.append(rows)
                 y_cords.append(coll)
-    if (hints == 0):
+    if hints == 0:
         solved = recursive_solve(grid, n_rows, n_cols)
     else:
         solved = hint(grid, n_rows, n_cols, hints)
-    if (user_print == True):
+    if user_print == True:
         for i in range(len(x_cords)):
-            if (solved[(x_cords[i])][(y_cords[i])] != 0):
-                print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(x_cords[i]) + ", " + str(y_cords[i]) + ")")
+            if solved[(x_cords[i])][(y_cords[i])] != 0:
+                print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(
+                    x_cords[i]) + ", " + str(y_cords[i]) + ")")
         print(solved)
     else:
         explain_array = []
@@ -533,7 +534,6 @@ def explain_func(grid, n_rows, n_cols, user_print=False, hints = 0):
             explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(
                 x_cords[i]) + ", " + str(y_cords[i]) + ")"))
         return explain_array
-
 
 
 def solve(grid, n_rows, n_cols, explain=False):
@@ -562,11 +562,11 @@ def read_file(input_file):
         no_of_characters = len(data)
         grid_size = no_of_characters ** 0.5
         temp_array = []
-        count = 0
+        COUNT = 0
         for number in data:
-            count += 1
-            if count == grid_size:
-                count = 0
+            COUNT += 1
+            if COUNT == grid_size:
+                COUNT = 0
                 temp_array.append(int(number))
                 grid_input.append(temp_array)
                 temp_array = []
@@ -575,7 +575,7 @@ def read_file(input_file):
     return grid_input, grid_size
 
 
-def file(file_input, output, explain = False):
+def file(file_input, output, explain=False):
     """
     A function that solves the grid from the file read using the read_file function, and outputs a file with the solved grid.
     args: grid
@@ -638,7 +638,6 @@ filtered_list = [name for name in file_list if
                  'output' not in name and '.git' not in name and '.png' not in name and '.py' not in name and 'solved' not in name]
 
 
-
 def average_time(grid):
     """
     This function is used to calculate the average time it takes to solve a grid using the different types of solvers.
@@ -653,7 +652,7 @@ def average_time(grid):
     grid_info = grid_type(grid)
     NUM_OF_TRIALS = 10
     grid_ran = copy.deepcopy(grid)
-    print ("⌛Calculating...")
+    print("⌛Calculating...")
     for i in range(NUM_OF_TRIALS):
         grid_rec = copy.deepcopy(grid)
         rec_start_time = time.time()
@@ -749,7 +748,7 @@ def parse_command_line_arguments(argv):
     input_filename = ""
     output_filename = ""
     num_hints = 0
-    if ('-explain' in argv and '-file' not in argv and '-hint' not in argv):
+    if '-explain' in argv and '-file' not in argv and '-hint' not in argv:
         if len(argv) > 2:
             print("\n--------------------------------------")
             print("Error: file name cannot contain spaces and file format must be specified")
@@ -771,7 +770,8 @@ def parse_command_line_arguments(argv):
     elif '-hint' in argv:
         if len(argv) > 4:
             print("--------------------------------------")
-            print("Error: file names cannot contain spaces and file format must be specified. Ensure spaces are correctly")
+            print(
+                "Error: file names cannot contain spaces and file format must be specified. Ensure spaces are correctly")
             exit()
         if '-explain' in argv:
             explain = True
@@ -806,15 +806,9 @@ def parse_command_line_arguments(argv):
 def main(flags):
     show_explain, show_file, show_hint, show_profile, input_file, output_file, num_hints, do_recursive, do_waveform, explain = parse_command_line_arguments(
         flags)
-
     if show_explain:
         grid_input, grid_size = read_file(input_file)
-        if grid_size == 6:
-            n_rows = 2
-            n_cols = 3
-        else:
-            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
-        explain_func(grid_input, n_rows, n_cols, True)
+        explain_func(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2], True)
     if show_file:
         if explain:
             file(input_file, output_file, True)
@@ -823,45 +817,30 @@ def main(flags):
         print("--------------------------------------")
         print("Solution file has been outputted")
     if show_hint:
-        grid_input, grid_size = read_file(input_file)
-        if grid_size == 6:
-            n_rows = 2
-            n_cols = 3
-        else:
-            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
+        grid_input = read_file(input_file)
         print("\n--------------------------------------")
         print(str(num_hints) + " hint(s) given. New grid is now:\n")
         if explain:
-            print(explain_func(grid_input, n_rows, n_cols, True, num_hints))
+            print(explain_func(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2], True, num_hints))
         else:
-            grid = hint(grid_input, n_rows, n_cols, num_hints)
+            grid = hint(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2], num_hints)
             print(grid)
     if show_profile:
         profile()
         print("\n--------------------------------------")
-        print("Graph solved as solverperformance.png\n")
+        print("Graph solved as solver_performance.png\n")
     if do_recursive:
-        grid_input, grid_size = read_file(input_file)
-        if grid_size == 6:
-            n_rows = 2
-            n_cols = 3
-        else:
-            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
+        grid_input = read_file(input_file)[0]
         print("\n--------------------------------------")
         print("Grid solved recursively:")
         print("--------------------------------------")
-        print(recursive_solve(grid_input, n_rows, n_cols))
+        print(recursive_solve(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2]))
     if do_waveform:
-        grid_input, grid_size = read_file(input_file)
-        if grid_size == 6:
-            n_rows = 2
-            n_cols = 3
-        else:
-            n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
+        grid_input = read_file(input_file)[0]
         print("--------------------------------------")
-        print("Grid solved using waveform propogation:")
+        print("Grid solved using waveform propagation:")
         print("--------------------------------------")
-        print(wavefront_solve(grid_input, n_rows, n_cols))
+        print(wavefront_solve(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2]))
 
 
 if __name__ == "__main__":
