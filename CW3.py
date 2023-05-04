@@ -846,9 +846,11 @@ def parse_command_line_arguments(argv):
         show_profile = True
     else:
         print("\n--------------------------------------")
-        print("LIST OF HOW TO WORK IT")  # this needs to be done after every flag is finished
-        print("--------------------------------------")
-
+        for (i, (grid, n_rows, n_cols)) in enumerate(grids):
+            print ("Solving provided grid number "+str(i+1))
+            print (wavefront_solve(grid, n_rows, n_cols))
+            print("\n--------------------------------------")
+            
     return (show_explain, show_file, show_hint, show_profile, input_filename, output_filename, num_hints, do_recursive,
             do_waveform, explain)
 
@@ -915,4 +917,7 @@ def main(flags):
 
 
 if __name__ == "__main__":
+    print("\n--------------------------------------")
+    print("LIST OF HOW TO WORK IT")  # this needs to be done after every flag is finished
+    print("--------------------------------------")
     main(sys.argv[1:])
