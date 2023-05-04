@@ -374,56 +374,7 @@ def find_empty(grid):
 
     return None
 
-def basic_recursive_solve(grid, n_rows, n_cols):
-    '''
-    This function uses recursion to exhaustively search all possible solutions to a grid
-    until the solution is found
 
-    args: grid, n_rows, n_cols
-    return: A solved grid (as a nested list), or None
-    '''
-
-    # N is the maximum integer considered in this board
-    n = n_rows * n_cols
-    # Find an empty place in the grid
-    empty = find_empty(grid)
-
-    # If there's no empty places left, check if we've found a solution
-    if not empty:
-        # If the solution is correct, return it.
-        if check_solution(grid, n_rows, n_cols):
-            return grid
-        else:
-            # If the solution is incorrect, return None
-            return None
-    else:
-        row, col = empty
-    #this creates a list of the columns in the sudoku
-    list_column = []
-    list_column_grid = []
-    for rows in range(n):
-        for coll in range(n):
-            list_column.append(grid[coll][rows])
-        list_column_grid.append(list_column)
-        list_column = []
-    # Loop through possible values
-    for i in range(1, n + 1):
-        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0:
-            # Place the value into the grid
-            grid[row][col] = i
-            # Recursively solve the grid
-            ans = basic_recursive_solve(grid, n_rows, n_cols)
-
-            # If we've found a solution, return it
-            if ans:
-                return ans
-
-            # If we couldn't find a solution, that must mean this value is incorrect.
-            # Reset the grid for the next iteration of the loop
-            grid[row][col] = 0
-
-        # If we get here, we've tried all possible values. Return none to indicate the previous value is incorrect.
-    return None
 
 def recursive_solve(grid, n_rows, n_cols):
     '''
@@ -558,7 +509,7 @@ def explain_func(grid, n_rows, n_cols, user_print=False, hints=0):
     This function outputs a list of instructions to solve the sudoku.
     args: grid - The grid you want checked
     n_rows - number of rows.
-    n_cols - number of collumns.
+    n_cols - number of columns.
     user_print - makes an array of the outputs if set to True.
     '''
     n = n_rows * n_cols
@@ -595,12 +546,13 @@ def read_file(input_file):
     """
     grid_input = []
     with open(input_file, "r") as my_file:
+        # removes the spacing and punctuation in the grids.
         data = my_file.read().replace(",", "")
         data = data.replace(" ", "")
         data = data.replace("\n", "")
         no_of_characters = len(data)
         grid_size = no_of_characters ** 0.5
-        temp_array = []
+        temp_array = [] # data of numbers read from the file is stored in an array
         COUNT = 0
         for number in data:
             COUNT += 1
@@ -621,14 +573,10 @@ def file(file_input, output, explain=False):
     return: type of grid, n_rows, n_cols
     """
     grid_input, grid_size = read_file(file_input)
-    if grid_size == 6:
-        n_rows = 2
-        n_cols = 3
-    else:
-        n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
-    explanation = explain_func(grid_input, n_rows, n_cols)
-    grid_solved = wavefront_solve(grid_input, n_rows, n_cols)
+    explanation = explain_func(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2]) # Calls upon the explain function and saves it within an array
+    grid_solved = wavefront_solve(grid_input, grid_type(grid_input)[1], grid_type(grid_input)[2])
     file_output = str(output) + "output"
+    # Writes in the fie
     with open(file_output, "w") as write_file:
         if explain:
             for line in explanation:
@@ -684,14 +632,13 @@ def average_time(grid):
     return: average_time_recursive, average_time_random, average_time_wave
     """
     total_time = 0
-    total_time_random = 0
+    # total_time_random = 0
     total_time_wavefront = 0
-    # average_time_random = 0
-    average_time_recursive = 0
     grid_info = grid_type(grid)
     NUM_OF_TRIALS = 10 # decrease the number of trials to decrease time taken to perform function, however doing this will affect accuracy of results.
     grid_ran = copy.deepcopy(grid)
     print("⌛Calculating...")
+    # Loops through and calculates time taken to solve the grids using the different solvers.
     for i in range(NUM_OF_TRIALS):
         grid_rec = copy.deepcopy(grid)
         rec_start_time = time.time()
@@ -731,6 +678,7 @@ def profile():
     aver_random_grids = []
     difficulty_array = []
     grid_type_array = []
+    # loops through and creates an array of the average time taken to solve each grid using the different solvers.
     for i in range(len(filtered_list)):
         aver_recursive_grids.append(average_time(read_file(filtered_list[i])[0])[0])
         # aver_random_grids.append(average_time(read_file(filtered_list[i])[0])[1])
@@ -738,13 +686,13 @@ def profile():
         difficulty_array.append(difficulty_level(read_file(filtered_list[i])[0]))
         grid_type_array.append(grid_type(read_file(filtered_list[i])[0])[0])
     fig, ax = plt.subplots(figsize=(8, 5))
-    plt.subplots_adjust(left=0.10, bottom=0.15, right=0.95, top=0.90)
-    ax.set_yscale('log')
+    plt.subplots_adjust(left=0.10, bottom=0.15, right=0.95, top=0.90) # ensures that the bar plot fits inside the figure.
+    ax.set_yscale('log') # log scale in y-axis
     X = np.arange(len(filtered_list))
-    ax.bar(X, aver_recursive_grids, color='b', width=0.35)
+    ax.bar(X, aver_recursive_grids, color='b', width=0.35) # bar plot for recursive grid
     # ax.bar(X + 0.25, aver_random_grids, color='r', width=0.25)
-    ax.bar(X + 0.35, aver_wave_grids, color='g', width=0.35)
-    ax.legend(['Recursive', 'Wavefront', 'Random'])
+    ax.bar(X + 0.35, aver_wave_grids, color='g', width=0.35) # bar plot for wavefront grid
+    ax.legend(['Recursive Plus', 'Wavefront', 'Random'])
     concatenated_array_recursive = [i + '\n' + j + str(k) for i, j, k in
                                     zip(filtered_list, difficulty_array, grid_type_array)]
     ax.set_xticks([i + 0.25 for i in range(len(filtered_list))], concatenated_array_recursive)
@@ -754,27 +702,6 @@ def profile():
     fig.savefig('solver_performance.png')
     plt.show()
 
-print(profile())
-
-"""
-random_start_time = time.time()
-        test2 = random_solve(grid_ran, grid_info[1], grid_info[2], max_tries=500000)
-        random_end_time = time.time()
-        random_exec_time = random_end_time - random_start_time
-        print(test2)
-        print(random_exec_time)
-        wave_start_time = time.time()
-        test1 = wavefront_solve(grid_wave, grid_info[1], grid_info[2])
-        wave_end_time = time.time()
-        wave_exec_time = wave_end_time - wave_start_time
-        print(test1)
-        print(wave_exec_time)
-        total_time += rec_exec_time
-        total_time_random += random_exec_time
-        total_time_wavefront += wave_exec_time
-
-
-"""
 
 
 def parse_command_line_arguments(argv):
