@@ -373,6 +373,56 @@ def find_empty(grid):
 
     return None
 
+def basic_recursive_solve(grid, n_rows, n_cols):
+    '''
+    This function uses recursion to exhaustively search all possible solutions to a grid
+    until the solution is found
+
+    args: grid, n_rows, n_cols
+    return: A solved grid (as a nested list), or None
+    '''
+
+    # N is the maximum integer considered in this board
+    n = n_rows * n_cols
+    # Find an empty place in the grid
+    empty = find_empty(grid)
+
+    # If there's no empty places left, check if we've found a solution
+    if not empty:
+        # If the solution is correct, return it.
+        if check_solution(grid, n_rows, n_cols):
+            return grid
+        else:
+            # If the solution is incorrect, return None
+            return None
+    else:
+        row, col = empty
+    #this creates a list of the columns in the sudoku
+    list_column = []
+    list_column_grid = []
+    for rows in range(n):
+        for coll in range(n):
+            list_column.append(grid[coll][rows])
+        list_column_grid.append(list_column)
+        list_column = []
+    # Loop through possible values
+    for i in range(1, n + 1):
+        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0:
+            # Place the value into the grid
+            grid[row][col] = i
+            # Recursively solve the grid
+            ans = basic_recursive_solve(grid, n_rows, n_cols)
+
+            # If we've found a solution, return it
+            if ans:
+                return ans
+
+            # If we couldn't find a solution, that must mean this value is incorrect.
+            # Reset the grid for the next iteration of the loop
+            grid[row][col] = 0
+
+        # If we get here, we've tried all possible values. Return none to indicate the previous value is incorrect.
+    return None
 
 def recursive_solve(grid, n_rows, n_cols):
     '''
