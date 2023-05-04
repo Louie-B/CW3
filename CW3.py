@@ -43,9 +43,20 @@ grid4 = [
     [0, 6, 4, 0, 3, 1],
     [0, 0, 1, 0, 4, 6],
 ]
+grid5 = [
+    [0, 0, 0, 6, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 5, 0, 1],
+    [3, 6, 9, 0, 8, 0, 4, 0, 0],
+    [0, 0, 0, 0, 0, 6, 8, 0, 0],
+    [0, 0, 0, 1, 3, 0, 0, 0, 9],
+    [4, 0, 5, 0, 0, 9, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 3, 0, 0],
+    [0, 0, 6, 0, 0, 7, 0, 0, 0],
+    [1, 0, 0, 3, 4, 0, 0, 0, 0],
+]
 
 
-#start of functions of wavefront solving
+# start of functions of wavefront solving
 def generate_range(grid, row, col):
     '''
     This function replaces all the zeros in a grid into a list containing numbers from 1 to the maximum number in a grid.
@@ -74,7 +85,7 @@ def remove(item, num):
         return item
     except ValueError:
         return item
-    
+
 
 def simplify(grid, row, col):
     '''
@@ -117,7 +128,7 @@ def find_least(grid, row, col):
         col_count = 0
         row_count += 1
     return row_num, col_num
-    
+
 
 def check_row(grid, row, col):
     '''
@@ -142,7 +153,7 @@ def check_row(grid, row, col):
         blank = []
     result = simplify(grid, row, col)
     return result
-    
+
 
 def check_col(grid, row, col):
     '''
@@ -202,7 +213,7 @@ def check_box(grid, row, col):
         row_count = 0
     result = simplify(grid, row, col)
     return result
-    
+
 
 def check_fin(grid, row, col):
     '''
@@ -290,7 +301,9 @@ def wavefront_solve(grid, row, col):
     '''
     generate_range(grid, row, col)
     return check(grid, row, col)
-#end of functions of wavefront solving
+
+
+# end of functions of wavefront solving
 
 
 def check_section(section, n):
@@ -399,7 +412,8 @@ def recursive_solve(grid, n_rows, n_cols):
     num_of_square = x + (n_rows * y)
     # Loop through possible values
     for i in range(1, n + 1):
-        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0 and get_squares(grid, n_rows, n_cols)[num_of_square].count(i) == 0:
+        if grid[row].count(i) == 0 and list_column_grid[col].count(i) == 0 and get_squares(grid, n_rows, n_cols)[
+            num_of_square].count(i) == 0:
             # Place the value into the grid
             grid[row][col] = i
             # Recursively solve the grid
@@ -456,13 +470,19 @@ def random_solve(grid, n_rows, n_cols, max_tries=500000):
 
 
 def difficulty_level(grid):
+    """
+    A function that calls upon the grid_difficulty function, and returns the difficulty level of the grid being considered.
+    args: grid
+    return: 'E','M','H'
+    """
     fraction = grid_difficulty(grid)
     if fraction < 0.33:
-        return 'easy'
+        return 'E'
     if fraction < 0.66:
-        return 'medium'
+        return 'M'
     else:
-        return 'hard'
+        return 'H'
+
 
 def explain_func(grid, n_rows, n_cols, user_print=False):
     n = n_rows * n_cols
@@ -476,16 +496,15 @@ def explain_func(grid, n_rows, n_cols, user_print=False):
     solved = recursive_solve(grid, n_rows, n_cols)
     if (user_print == True):
         for i in range(len(x_cords)):
-            print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(x_cords[i]) + ", " + str(
+            print("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(x_cords[i]) + ", " + str(
                 y_cords[i]) + ")")
         print(solved)
     else:
         explain_array = []
         for i in range(len(x_cords)):
-            explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in posistion (" + str(
+            explain_array.append(("Put a " + str(solved[(x_cords[i])][(y_cords[i])]) + " in position (" + str(
                 x_cords[i]) + ", " + str(y_cords[i]) + ")"))
         return explain_array
-
 
 
 def solve(grid, n_rows, n_cols, explain=False):
@@ -500,9 +519,12 @@ def solve(grid, n_rows, n_cols, explain=False):
         return recursive_solve(grid, n_rows, n_cols)
 
 
-file_names = ['easy1.txt', 'easy2.txt', 'med1', 'med2', 'hard1']
-
 def read_file(input_file):
+    """
+    A function that reads the file in the directory and returns the grid inside of it.
+    args: input_file (file name)
+    return: type of grid_input
+    """
     grid_input = []
     with open(input_file, "r") as my_file:
         data = my_file.read().replace(",", "")
@@ -520,24 +542,27 @@ def read_file(input_file):
                 grid_input.append(temp_array)
                 temp_array = []
             else:
-                print(number)
-                print(len(number))
                 temp_array.append(int(number))
     return grid_input, grid_size
 
 
 def file(file_input, output):
+    """
+    A function that solves the grid from the file read using the read_file function, and outputs a file with the solved grid.
+    args: grid
+    return: type of grid, n_rows, n_cols
+    """
     grid_input, grid_size = read_file(file_input)
     if grid_size == 6:
         n_rows = 2
         n_cols = 3
     else:
         n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
-    explaination = explain_func(grid_input, n_rows, n_cols)
+    explanation = explain_func(grid_input, n_rows, n_cols)
     grid_solved = solve(grid_input, n_rows, n_cols)
-    file_output = str(output) + "solved"
+    file_output = str(output) + "output"
     with open(file_output, "w") as write_file:
-        for line in explaination:
+        for line in explanation:
             write_file.write(str(line))
             write_file.write('\n')
         write_file.write('\n')
@@ -545,7 +570,13 @@ def file(file_input, output):
             write_file.write(str(line))
             write_file.write('\n')
 
+
 def grid_type(grid):
+    """
+    A function that returns useful information such as the type of grid as well as the number of rows and columns of the grid.
+    args: grid
+    return: type of grid, n_rows, n_cols
+    """
     grid_size = len(grid)
     if grid_size == 6:
         n_rows = 2
@@ -560,15 +591,21 @@ def grid_type(grid):
 
 
 def grid_difficulty(grid):
+    """
+    A function that divides the number of unfilled locations by the total number of locations, to calculate the fraction of the grid that is empty, this information can then be used to decide the difficulty level.
+    args: grid
+    return: fraction
+    """
     unfilled_locations = sum(1 for row in grid for location in row if location == 0)
     total_locations = len(grid) ** 2
     fraction = (unfilled_locations / total_locations)
-    print(unfilled_locations, total_locations, fraction)
     return fraction
 
 
+# Reads the files in the directory and filters it to find the files with the grids that need to be read and used in the profile function.
 file_list = os.listdir(".")
-filtered_list = [name for name in file_list if 'solved' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
+filtered_list = [name for name in file_list if
+                 'output' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
 
 
 def hint(grid, row, col, hint_num):
@@ -576,8 +613,8 @@ def hint(grid, row, col, hint_num):
     answer_grid = wavefront_solve(copy_grid, row, col)
     empty_row = []
     empty_col = []
-    for i in range(row*col):
-        for j in range(col*row):
+    for i in range(row * col):
+        for j in range(col * row):
             if grid[i][j] == 0:
                 empty_row.append(i)
                 empty_col.append(j)
@@ -589,69 +626,95 @@ def hint(grid, row, col, hint_num):
     return grid
 
 
-
 def average_time(grid):
+    """
+    This function is used to calculate the average time it takes to solve a grid using the different types of solvers.
+    args: grid
+    return: average_time_recursive, average_time_random, average_time_wave
+    """
     total_time = 0
-    # total_time_random = 0
+    total_time_random = 0
+    total_time_wavefront = 0
     # average_time_random = 0
     average_time_recursive = 0
     grid_info = grid_type(grid)
-    num_of_trials = 10
-    for i in range(num_of_trials):
-        grid_copy = copy.deepcopy(grid)
-        start_time = time.time()
-        recursive_solve(grid_copy, grid_info[1], grid_info[2])
-        end_time = time.time()
-        # random_start_time = time.time()
-        # random_solve(grid_copy, grid_info[1], grid_info[2], max_tries=500000)
-        # random_end_time = time.time()
-        execution_time = end_time - start_time
-        # random_exec_time = random_end_time - random_start_time
-        total_time += execution_time
-        # total_time_random += random_exec_time
-    average_time_recursive = total_time / num_of_trials
+    NUM_OF_TRIALS = 10
+    grid_ran = copy.deepcopy(grid)
+    for i in range(NUM_OF_TRIALS):
+        grid_rec = copy.deepcopy(grid)
+        rec_start_time = time.time()
+        test_rec = recursive_solve(grid_rec, grid_info[1], grid_info[2])
+        rec_end_time = time.time()
+        rec_exec_time = rec_end_time - rec_start_time
+        total_time += rec_exec_time
+        grid_wave = copy.deepcopy(grid)
+        wave_start_time = time.time()
+        test_wave = wavefront_solve(grid_wave, grid_info[1], grid_info[2])
+        wave_end_time = time.time()
+        wave_exec_time = wave_end_time - wave_start_time
+        total_time_wavefront += wave_exec_time
+    average_time_recursive = total_time / NUM_OF_TRIALS
     # average_time_random = total_time_random / num_of_trials
+    average_time_wave = total_time_wavefront / NUM_OF_TRIALS
+    print(average_time_recursive, average_time_wave)  # average_time_random, average_time_wave
     # print("Average time of execution for a ", grid_info[0], "is", (total_time / 10), "seconds. Grid difficulty is", grid_difficulty(grid))
-    return average_time_recursive  # average_time_random
+    return average_time_recursive, average_time_wave  # average_time_random,
 
 
-aver_recursive_grids = []
-aver_random_grids = []
-for i in range(len(filtered_list)):
-    aver_recursive_grids.append(average_time(read_file(filtered_list[i])[0]))
-    # aver_random_grids.append(average_time(read_file(filtered_list[i])[0]))
-
-
-def plot():
-    # Declaring the figure or the plot (y, x) or (width, height)
-    # plt.figure(figsize=[20, 15])
-    # Data to be plotted
-    totalDeath = [113055, 37312, 5971, 7473, 33964, 20002]
-    totalRecovery = [773480, 325602, 230688, 129095, 166584, 20200]
-    activeCases = [1139958, 347973, 239999, 129360, 34730, 30000]
+def profile():
+    """
+    This function is used to plot the time taken to solve different grids using the 3 types of solvers. Presents it in a clear bar-chart with information on the grid type and difficulty.
+    """
+    aver_recursive_grids = []
+    aver_wave_grids = []
+    aver_random_grids = []
+    difficulty_array = []
+    grid_type_array = []
+    for i in range(len(filtered_list)):
+        aver_recursive_grids.append(average_time(read_file(filtered_list[i])[0])[0])
+        # aver_random_grids.append(average_time(read_file(filtered_list[i])[0])[1])
+        aver_wave_grids.append(average_time(read_file(filtered_list[i])[0])[1])
+        difficulty_array.append(difficulty_level(read_file(filtered_list[i])[0]))
+        grid_type_array.append(grid_type(read_file(filtered_list[i])[0])[0])
+    fig, ax = plt.subplots(figsize=(8, 5))
+    plt.subplots_adjust(left=0.10, bottom=0.15, right=0.95, top=0.90)
+    ax.set_yscale('log')
     X = np.arange(len(filtered_list))
-    plt.bar(X, aver_recursive_grids, color='black', width=0.25)
-    # plt.bar(X + 0.25, totalRecovery, color='g', width=0.25)
-    # plt.bar(X + 0.5, activeCases, color='b', width=0.25)
-    plt.legend(['Recursive', 'Recursive', 'other_solver'])
-    plt.xticks([i + 0.25 for i in range(len(filtered_list))], filtered_list)
-    plt.title("Bar plot comparing the performance of each solver")
-    plt.xlabel('files')
-    plt.ylabel('Time')
-    plt.savefig('solver_performance.png')
+    ax.bar(X, aver_recursive_grids, color='b', width=0.25)
+    # ax.bar(X + 0.25, aver_random_grids, color='r', width=0.25)
+    ax.bar(X + 0.5, aver_wave_grids, color='g', width=0.25)
+    ax.legend(['Recursive', 'Random', 'wavefront_solver'])
+    concatenated_array_recursive = [i + '\n' + j + str(k) for i, j, k in
+                                    zip(filtered_list, difficulty_array, grid_type_array)]
+    print(concatenated_array_recursive)
+    ax.set_xticks([i + 0.25 for i in range(len(filtered_list))], concatenated_array_recursive)
+    ax.set_title("Bar plot comparing the performance of each solver")
+    ax.set_xlabel('Grid Files')
+    ax.set_ylabel('Time (Seconds)')
+    fig.savefig('solver_performance.png')
     plt.show()
 
 
-def profile(grid):
-    av_time_recursive = []
-    av_time_random = []
-    grid_info = grid_type(grid)
-    # av_time_recursive.append(average_time(grid)[0])
-    # av_time_random.append(average_time(grid)[1])
-    print(
-        f"Average time of execution to recursively solve this {grid_info[0]} grid of difficulty {difficulty_level(grid)} is {average_time(grid)[0]} secs.")
-    print(
-        f"Average time of execution to randomly solve this {grid_info[0]} grid of difficulty {difficulty_level(grid)} is {average_time(grid)[1]} secs.")
+print(profile())
+"""
+random_start_time = time.time()
+        test2 = random_solve(grid_ran, grid_info[1], grid_info[2], max_tries=500000)
+        random_end_time = time.time()
+        random_exec_time = random_end_time - random_start_time
+        print(test2)
+        print(random_exec_time)
+        wave_start_time = time.time()
+        test1 = wavefront_solve(grid_wave, grid_info[1], grid_info[2])
+        wave_end_time = time.time()
+        wave_exec_time = wave_end_time - wave_start_time
+        print(test1)
+        print(wave_exec_time)
+        total_time += rec_exec_time
+        total_time_random += random_exec_time
+        total_time_wavefront += wave_exec_time
+
+
+"""
 
 def parse_command_line_arguments(argv):
     '''
