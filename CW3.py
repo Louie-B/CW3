@@ -908,6 +908,6 @@ def main(flags):
 
 if __name__ == "__main__":
     print("\n--------------------------------------")
-    print("LIST OF HOW TO WORK IT")  # this needs to be done after every flag is finished
+    print("OPEN README.txt FOR HOW TO USE PROGRAM")  # this needs to be done after every flag is finished
     print("--------------------------------------")
     main(sys.argv[1:])
