@@ -354,11 +354,14 @@ def read_file(input_file):
                 grid_input.append(temp_array)
                 temp_array = []
             else:
+                print(number)
+                print(len(number))
                 temp_array.append(int(number))
     return grid_input, grid_size
 
 
-def file(grid_input, grid_size, output):
+def file(file_input, file_output):
+    grid_input, grid_size = read_file(file_input)
     if grid_size == 6:
         n_rows = 2
         n_cols = 3
@@ -366,6 +369,7 @@ def file(grid_input, grid_size, output):
         n_rows, n_cols = int(grid_size ** 0.5), int(grid_size ** 0.5)
     explaination = explain_func(grid_input, n_rows, n_cols)
     grid_solved = solve(grid_input, n_rows, n_cols)
+    output = "solved" + file_output
     with open(output, "w") as write_file:
         for line in explaination:
             write_file.write(str(line))
@@ -403,12 +407,9 @@ def grid_difficulty(grid):
 
 
 file_list = os.listdir(".")
-print(file_list)
 filtered_list = [name for name in file_list if
                  'solved' not in name and '.git' not in name and '.png' not in name and '.py' not in name]
-print(filtered_list)
 
-# print(filtered_list)
 
 
 def average_time(grid):
@@ -481,10 +482,10 @@ def profile(grid):
 
 # print(file(read_file('easy1.txt')[0], read_file('easy1.txt')[1], 'eazsolved.txt'))
 
-# print(plot())
+#print(plot())
 # print(profile(grid3))
 #print(explain_func(grid3, 3, 3))
-
+file('easy2.txt', 'hello.txt')
 
 def main(flags):
     for flag in flags:
