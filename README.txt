@@ -14,3 +14,7 @@ Note: These flags all take into consideration that the files being inputted cont
  5. for simply solving a grid using a recursive algorithm, input: -recursive "input filename"
 
  6. for simply solving a grid using wavefront propogation algorithms, input: -wavefront "input filename"
+
+Task 2.4: Ensure the only files in the directory are the CW3.py file and the grid files. Files containing the grid must be a text file as mentioned above. 
+
+Note- Random is not plotted as it takes on average around a minute to carry out the function and sometimes does not provide a solution. This could lead to calculation times of up to an hour to calculate all six grids 10 times. Thus, the code for random has been commented out.
